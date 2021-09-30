@@ -1,0 +1,13 @@
+Loki Pac-Man
+All in 1 scene
+-Begin Game- overlay text listens to click/enter/spacebar event (if in game manager is in preGame state), this then disables the renderer and tells game manager to start game
+
+On start game, game manager randomises Loki logo 3 times pausing for 1 second on each one, then Loki player character spawn function called as well as the 'Ready!' text appearing. This function plays an animation with a portal effect that opens, Loki appears, then portal closes (this 3 step sequence takes up 1 second), as well removing one life from the life UI. After that 1 second time, enemies are then spawned in the enemy room, then game pauses for 1 second. After this time, 'Ready! text disappears, Loki begins moving left, player control is enabled, and enemies begin to move.
+
+On enemy catching player, all player/enemy movement freezes, after 1 second enemies are destroyed and player death animation plays (Loki walking into orange square TVA portal), then game is restarted, so a life is removed and Loki spawns in, and continue game start code as previously explained^.
+
+Overlap detection for picking up pellets and Tesseracts.
+
+Player movement, player can queue up a direction, overwrite it as much as they want before the player arrives at an intersection, then upon arrival, player changes direction. If no direction queued up, player will continue in same direction if they can (no wall).
+
+Mouse can be used for clicking a sound mute icon or a restart game icon at any game state
