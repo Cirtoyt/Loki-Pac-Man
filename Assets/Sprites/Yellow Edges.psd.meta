@@ -286,12 +286,12 @@ TextureImporter:
       name: Yellow Edges_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 72
+        x: 1
+        y: 91
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -307,12 +307,12 @@ TextureImporter:
       name: Yellow Edges_1
       rect:
         serializedVersion: 2
-        x: 8
-        y: 72
+        x: 11
+        y: 91
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -328,12 +328,12 @@ TextureImporter:
       name: Yellow Edges_2
       rect:
         serializedVersion: 2
-        x: 16
-        y: 72
+        x: 21
+        y: 91
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -349,12 +349,12 @@ TextureImporter:
       name: Yellow Edges_3
       rect:
         serializedVersion: 2
-        x: 24
-        y: 72
+        x: 31
+        y: 91
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -370,12 +370,12 @@ TextureImporter:
       name: Yellow Edges_4
       rect:
         serializedVersion: 2
-        x: 32
-        y: 72
+        x: 41
+        y: 91
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -391,12 +391,12 @@ TextureImporter:
       name: Yellow Edges_5
       rect:
         serializedVersion: 2
-        x: 40
-        y: 72
+        x: 51
+        y: 91
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -412,12 +412,12 @@ TextureImporter:
       name: Yellow Edges_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 1
+        y: 81
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -433,12 +433,12 @@ TextureImporter:
       name: Yellow Edges_7
       rect:
         serializedVersion: 2
-        x: 8
-        y: 64
+        x: 11
+        y: 81
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -454,12 +454,12 @@ TextureImporter:
       name: Yellow Edges_8
       rect:
         serializedVersion: 2
-        x: 16
-        y: 64
+        x: 21
+        y: 81
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -475,12 +475,12 @@ TextureImporter:
       name: Yellow Edges_9
       rect:
         serializedVersion: 2
-        x: 24
-        y: 64
+        x: 31
+        y: 81
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -496,12 +496,12 @@ TextureImporter:
       name: Yellow Edges_10
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
+        x: 41
+        y: 81
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -517,12 +517,12 @@ TextureImporter:
       name: Yellow Edges_11
       rect:
         serializedVersion: 2
-        x: 40
-        y: 64
+        x: 51
+        y: 81
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -538,12 +538,12 @@ TextureImporter:
       name: Yellow Edges_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 56
+        x: 1
+        y: 71
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -559,12 +559,12 @@ TextureImporter:
       name: Yellow Edges_13
       rect:
         serializedVersion: 2
-        x: 8
-        y: 56
+        x: 11
+        y: 71
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -580,12 +580,12 @@ TextureImporter:
       name: Yellow Edges_14
       rect:
         serializedVersion: 2
-        x: 16
-        y: 56
+        x: 21
+        y: 71
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -601,12 +601,12 @@ TextureImporter:
       name: Yellow Edges_15
       rect:
         serializedVersion: 2
-        x: 24
-        y: 56
+        x: 31
+        y: 71
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -622,12 +622,12 @@ TextureImporter:
       name: Yellow Edges_16
       rect:
         serializedVersion: 2
-        x: 32
-        y: 56
+        x: 41
+        y: 71
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -643,12 +643,12 @@ TextureImporter:
       name: Yellow Edges_17
       rect:
         serializedVersion: 2
-        x: 40
-        y: 56
+        x: 51
+        y: 71
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -664,12 +664,12 @@ TextureImporter:
       name: Yellow Edges_18
       rect:
         serializedVersion: 2
-        x: 0
-        y: 48
+        x: 1
+        y: 61
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -685,12 +685,12 @@ TextureImporter:
       name: Yellow Edges_19
       rect:
         serializedVersion: 2
-        x: 8
-        y: 48
+        x: 11
+        y: 61
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -706,12 +706,12 @@ TextureImporter:
       name: Yellow Edges_20
       rect:
         serializedVersion: 2
-        x: 16
-        y: 48
+        x: 21
+        y: 61
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -727,12 +727,12 @@ TextureImporter:
       name: Yellow Edges_21
       rect:
         serializedVersion: 2
-        x: 24
-        y: 48
+        x: 31
+        y: 61
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -748,12 +748,12 @@ TextureImporter:
       name: Yellow Edges_22
       rect:
         serializedVersion: 2
-        x: 32
-        y: 48
+        x: 41
+        y: 61
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -769,12 +769,12 @@ TextureImporter:
       name: Yellow Edges_23
       rect:
         serializedVersion: 2
-        x: 40
-        y: 48
+        x: 51
+        y: 61
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -790,12 +790,12 @@ TextureImporter:
       name: Yellow Edges_24
       rect:
         serializedVersion: 2
-        x: 0
-        y: 40
+        x: 1
+        y: 51
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -811,12 +811,12 @@ TextureImporter:
       name: Yellow Edges_25
       rect:
         serializedVersion: 2
-        x: 8
-        y: 40
+        x: 11
+        y: 51
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -832,12 +832,12 @@ TextureImporter:
       name: Yellow Edges_26
       rect:
         serializedVersion: 2
-        x: 16
-        y: 40
+        x: 21
+        y: 51
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -853,12 +853,12 @@ TextureImporter:
       name: Yellow Edges_27
       rect:
         serializedVersion: 2
-        x: 24
-        y: 40
+        x: 31
+        y: 51
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -874,12 +874,12 @@ TextureImporter:
       name: Yellow Edges_28
       rect:
         serializedVersion: 2
-        x: 32
-        y: 40
+        x: 41
+        y: 51
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -895,12 +895,12 @@ TextureImporter:
       name: Yellow Edges_29
       rect:
         serializedVersion: 2
-        x: 40
-        y: 40
+        x: 51
+        y: 51
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -916,12 +916,12 @@ TextureImporter:
       name: Yellow Edges_30
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 1
+        y: 41
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -937,12 +937,12 @@ TextureImporter:
       name: Yellow Edges_31
       rect:
         serializedVersion: 2
-        x: 8
-        y: 32
+        x: 11
+        y: 41
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -958,12 +958,12 @@ TextureImporter:
       name: Yellow Edges_32
       rect:
         serializedVersion: 2
-        x: 16
-        y: 32
+        x: 21
+        y: 41
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -979,12 +979,12 @@ TextureImporter:
       name: Yellow Edges_33
       rect:
         serializedVersion: 2
-        x: 24
-        y: 32
+        x: 31
+        y: 41
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1000,12 +1000,12 @@ TextureImporter:
       name: Yellow Edges_34
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 41
+        y: 41
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1021,12 +1021,12 @@ TextureImporter:
       name: Yellow Edges_35
       rect:
         serializedVersion: 2
-        x: 40
-        y: 32
+        x: 51
+        y: 41
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1042,12 +1042,12 @@ TextureImporter:
       name: Yellow Edges_36
       rect:
         serializedVersion: 2
-        x: 0
-        y: 24
+        x: 1
+        y: 31
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1063,12 +1063,12 @@ TextureImporter:
       name: Yellow Edges_37
       rect:
         serializedVersion: 2
-        x: 8
-        y: 24
+        x: 11
+        y: 31
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1084,12 +1084,12 @@ TextureImporter:
       name: Yellow Edges_38
       rect:
         serializedVersion: 2
-        x: 16
-        y: 24
+        x: 21
+        y: 31
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1105,12 +1105,12 @@ TextureImporter:
       name: Yellow Edges_39
       rect:
         serializedVersion: 2
-        x: 24
-        y: 24
+        x: 31
+        y: 31
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1126,12 +1126,12 @@ TextureImporter:
       name: Yellow Edges_40
       rect:
         serializedVersion: 2
-        x: 32
-        y: 24
+        x: 41
+        y: 31
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1147,12 +1147,12 @@ TextureImporter:
       name: Yellow Edges_41
       rect:
         serializedVersion: 2
-        x: 40
-        y: 24
+        x: 51
+        y: 31
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1168,12 +1168,12 @@ TextureImporter:
       name: Yellow Edges_42
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
+        x: 1
+        y: 21
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1189,12 +1189,12 @@ TextureImporter:
       name: Yellow Edges_43
       rect:
         serializedVersion: 2
-        x: 8
-        y: 16
+        x: 11
+        y: 21
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1210,12 +1210,12 @@ TextureImporter:
       name: Yellow Edges_44
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
+        x: 21
+        y: 21
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1231,12 +1231,12 @@ TextureImporter:
       name: Yellow Edges_45
       rect:
         serializedVersion: 2
-        x: 24
-        y: 16
+        x: 31
+        y: 21
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1252,12 +1252,12 @@ TextureImporter:
       name: Yellow Edges_46
       rect:
         serializedVersion: 2
-        x: 32
-        y: 16
+        x: 41
+        y: 21
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1273,12 +1273,12 @@ TextureImporter:
       name: Yellow Edges_47
       rect:
         serializedVersion: 2
-        x: 40
-        y: 16
+        x: 51
+        y: 21
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1294,12 +1294,12 @@ TextureImporter:
       name: Yellow Edges_48
       rect:
         serializedVersion: 2
-        x: 0
-        y: 8
+        x: 1
+        y: 11
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1315,12 +1315,12 @@ TextureImporter:
       name: Yellow Edges_49
       rect:
         serializedVersion: 2
-        x: 8
-        y: 8
+        x: 11
+        y: 11
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1336,12 +1336,12 @@ TextureImporter:
       name: Yellow Edges_50
       rect:
         serializedVersion: 2
-        x: 16
-        y: 8
+        x: 21
+        y: 11
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1357,12 +1357,12 @@ TextureImporter:
       name: Yellow Edges_51
       rect:
         serializedVersion: 2
-        x: 24
-        y: 8
+        x: 31
+        y: 11
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1378,12 +1378,12 @@ TextureImporter:
       name: Yellow Edges_52
       rect:
         serializedVersion: 2
-        x: 32
-        y: 8
+        x: 41
+        y: 11
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1399,12 +1399,12 @@ TextureImporter:
       name: Yellow Edges_53
       rect:
         serializedVersion: 2
-        x: 40
-        y: 8
+        x: 51
+        y: 11
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1420,12 +1420,12 @@ TextureImporter:
       name: Yellow Edges_54
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 1
+        y: 1
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1441,12 +1441,12 @@ TextureImporter:
       name: Yellow Edges_55
       rect:
         serializedVersion: 2
-        x: 8
-        y: 0
+        x: 11
+        y: 1
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1462,12 +1462,12 @@ TextureImporter:
       name: Yellow Edges_56
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
+        x: 21
+        y: 1
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1483,12 +1483,12 @@ TextureImporter:
       name: Yellow Edges_57
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
+        x: 31
+        y: 1
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1504,12 +1504,12 @@ TextureImporter:
       name: Yellow Edges_58
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
+        x: 41
+        y: 1
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1525,12 +1525,12 @@ TextureImporter:
       name: Yellow Edges_59
       rect:
         serializedVersion: 2
-        x: 40
-        y: 0
+        x: 51
+        y: 1
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
