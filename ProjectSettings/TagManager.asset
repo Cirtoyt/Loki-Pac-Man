@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Decision Point
+  - U-Turn Point
+  - Wall
+  - Tunnel
   layers:
   - Default
   - TransparentFX

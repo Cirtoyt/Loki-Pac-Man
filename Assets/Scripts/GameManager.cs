@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         // Game begins!
         ReadyText.enabled = false;
-        loki.canMove = true;
+        loki.Unfreeze();
         gameState = GameStates.InGame;
     }
 
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
 
     private void FreezeGameAndInputs()
     {
-        loki.canMove = false;
+        loki.Freeze();
         // Get all enemies in existance, then freeze them
     }
 
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
 
     private void UnfreezeGameAndInputs()
     {
-        loki.canMove = true;
+        loki.Unfreeze();
         // Get all enemies in existance, then unfreeze them
     }
 
@@ -162,24 +162,28 @@ public class GameManager : MonoBehaviour
         // mute button and reset button
     }
 
-    private void OnMoveUp(InputValue value)
+    private void OnMoveUp()
     {
-        Debug.Log(value.Get<float>());
+        if (loki)
+            loki.CompareNewInput(Direction.Up);
     }
 
-    private void OnMoveDown(InputValue value)
+    private void OnMoveDown()
     {
-        Debug.Log(value.Get<float>());
+        if (loki)
+            loki.CompareNewInput(Direction.Down);
     }
 
-    private void OnMoveLeft(InputValue value)
+    private void OnMoveLeft()
     {
-        Debug.Log(value.Get<float>());
+        if (loki)
+            loki.CompareNewInput(Direction.Left);
     }
 
-    private void OnMoveRight(InputValue value)
+    private void OnMoveRight()
     {
-        Debug.Log(value.Get<float>());
+        if (loki)
+            loki.CompareNewInput(Direction.Right);
     }
 
     public Transform GetSpawnPoint()
@@ -190,5 +194,10 @@ public class GameManager : MonoBehaviour
     public GameObject GetLokiPrefab()
     {
         return lokiPrefab;
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 }
