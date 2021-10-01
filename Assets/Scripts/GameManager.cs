@@ -9,13 +9,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextBlinker beginGameText;
     [SerializeField] private Text ReadyText;
     [SerializeField] private TextBlinker pauseGameText;
+    [SerializeField] private Text scoreValueText;
     [SerializeField] private GameObject tesseractPrefab;
     [SerializeField] private GameObject lokiPrefab;
-    [SerializeField] Transform spawnPoint;
+    [SerializeField] Transform lokiSpawnPoint;
     [SerializeField] private int defaultLives;
     [SerializeField] private int maxLives;
+    [SerializeField] GameObject pelletsPrefab;
 
-    private enum GameStates
+    public enum GameState
     {
         BeginScreen,
         SettingUpGame,
@@ -23,16 +25,21 @@ public class GameManager : MonoBehaviour
         PauseScreen,
     }
 
-    private GameStates gameState;
+    private EnemyManager em;
     private Loki loki;
+    private GameState gameState;
     private int lives;
     private int score;
+    private GameObject instantiatedPellets;
 
     void Start()
     {
-        gameState = GameStates.BeginScreen;
+        scoreValueText.text = "0";
+        em = GetComponent<EnemyManager>();
         loki = null;
+        gameState = GameState.BeginScreen;
         lives = defaultLives;
+        instantiatedPellets = Instantiate(pelletsPrefab);
 
         beginGameText.EnableText();
         ReadyText.enabled = false;
@@ -48,13 +55,13 @@ public class GameManager : MonoBehaviour
     {
         switch (gameState)
         {
-            case GameStates.BeginScreen:
+            case GameState.BeginScreen:
                 StartCoroutine(BeginGame());
                 break;
-            case GameStates.InGame:
+            case GameState.InGame:
                 PauseGame();
                 break;
-            case GameStates.PauseScreen:
+            case GameState.PauseScreen:
                 UnPauseGame();
                 break;
         }
@@ -62,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator BeginGame()
     {
-        gameState = GameStates.SettingUpGame;
+        gameState = GameState.SettingUpGame;
         beginGameText.DisableText();
         ReadyText.enabled = true;
         RandomiseLogo();
@@ -72,14 +79,15 @@ public class GameManager : MonoBehaviour
         RandomiseLogo();
         yield return new WaitForSeconds(1);
         // Begin Loki spawn animation (takes 1 second)
-        Instantiate(tesseractPrefab, spawnPoint);
+        Instantiate(tesseractPrefab, lokiSpawnPoint);
         yield return new WaitUntil(() => loki);
-        // Spawn enemies
+        em.SpawnEnemies();
         yield return new WaitForSeconds(1);
         // Game begins!
         ReadyText.enabled = false;
         loki.Unfreeze();
-        gameState = GameStates.InGame;
+        em.BeginRound();
+        gameState = GameState.InGame;
     }
 
     public void RemoveLife()
@@ -110,7 +118,7 @@ public class GameManager : MonoBehaviour
 
     private void PauseGame()
     {
-        gameState = GameStates.PauseScreen;
+        gameState = GameState.PauseScreen;
         pauseGameText.EnableText();
         FreezeGameAndInputs();
     }
@@ -118,12 +126,12 @@ public class GameManager : MonoBehaviour
     private void FreezeGameAndInputs()
     {
         loki.Freeze();
-        // Get all enemies in existance, then freeze them
+        em.FreezeEnemies();
     }
 
     private void UnPauseGame()
     {
-        gameState = GameStates.InGame;
+        gameState = GameState.InGame;
         pauseGameText.DisableText();
         UnfreezeGameAndInputs();
     }
@@ -131,30 +139,50 @@ public class GameManager : MonoBehaviour
     private void UnfreezeGameAndInputs()
     {
         loki.Unfreeze();
-        // Get all enemies in existance, then unfreeze them
+        em.UnfreezeEnemies();
     }
 
-    public IEnumerator EndRound()
+    public void EndRound()
     {
-        yield return new WaitForSeconds(1);
+        StartCoroutine(EndRoundCoroutine());
+    }
+
+    private IEnumerator EndRoundCoroutine()
+    {
         FreezeGameAndInputs();
         // Destroy enemies (except the one who caught Loki)
+        yield return new WaitForSeconds(1);
         StartCoroutine(CaptureLoki(/*last enemy reference?*/));
-        yield return new WaitUntil(() => !loki);
+        yield return new WaitUntil(() => true);
         if (lives > 0)
         {
-            gameState = GameStates.BeginScreen;
+            gameState = GameState.BeginScreen;
             beginGameText.EnableText();
+            lives--;
+            em.ResetEnemyRoamLoop();
         }
         else
         {
             yield return new WaitForSeconds(2);
             score = 0;
             lives = defaultLives;
+            Destroy(instantiatedPellets);
+            instantiatedPellets = Instantiate(pelletsPrefab);
             // remove any bonus items
-            gameState = GameStates.BeginScreen;
+            gameState = GameState.BeginScreen;
             beginGameText.EnableText();
         }
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    public void AddScore(int points)
+    {
+        score += points;
+        scoreValueText.text = score.ToString();
     }
 
     private void OnMouseSelect()
@@ -188,7 +216,7 @@ public class GameManager : MonoBehaviour
 
     public Transform GetSpawnPoint()
     {
-        return spawnPoint;
+        return lokiSpawnPoint;
     }
 
     public GameObject GetLokiPrefab()
@@ -196,8 +224,8 @@ public class GameManager : MonoBehaviour
         return lokiPrefab;
     }
 
-    public int GetScore()
+    public GameState GetGameState()
     {
-        return score;
+        return gameState;
     }
 }

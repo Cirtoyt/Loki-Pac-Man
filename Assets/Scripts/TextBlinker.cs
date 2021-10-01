@@ -12,7 +12,7 @@ public class TextBlinker : MonoBehaviour
     private bool showText;
     private float timer;
 
-    void Start()
+    void Awake()
     {
         text = GetComponent<Text>();
         timer = 0;

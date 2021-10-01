@@ -5,13 +5,15 @@ using UnityEngine.Tilemaps;
 
 public class Loki : MonoBehaviour
 {
+    private EnemyManager em;
     private GridMovement gridMovement;
     private Direction queuedDirection;
 
     void Start()
     {
+        em = FindObjectOfType<EnemyManager>();
         gridMovement = GetComponent<GridMovement>();
-        gridMovement.SetSpawnPosition(new Vector2(-3.5f, -8), true);
+        gridMovement.SetSpawnPosition(transform.position);
         queuedDirection = Direction.None;
     }
 
@@ -123,5 +125,18 @@ public class Loki : MonoBehaviour
     public void Unfreeze()
     {
         gridMovement.canMove = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out Enemy enemy))
+        {
+            if (enemy.GetMovementState() == Enemy.MovementState.Frightened)
+            {
+                Debug.Log("Hit");
+                enemy.RetreatToTVA();
+                em.CaptureEnemy();
+            }
+        }
     }
 }

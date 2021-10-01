@@ -5,7 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class GridMovement : MonoBehaviour
 {
-    public float movementSpeed;
+    [SerializeField] private float movementSpeed;
+    public float movementSpeedMultiplier;
 
     [HideInInspector] public bool canMove;
 
@@ -13,10 +14,8 @@ public class GridMovement : MonoBehaviour
     private Tilemap decisionPointTilemap;
     private Tilemap uTurnPointTilemap;
     private Tilemap tunnelTilemap;
-    private Vector2 enterMazePos;
     private Vector2 previousTilePos;
-    private bool mustResetDirectionSpeed;
-    private float directionSpeedMultiplier;
+    private bool mustResetHalfStep;
     private DirectionInfo currentDirection;
     private Vector2 nextTilePos;
     private float tileTransitionPerc;
@@ -28,15 +27,32 @@ public class GridMovement : MonoBehaviour
         decisionPointTilemap = GameObject.FindGameObjectWithTag("Decision Point").GetComponent<Tilemap>();
         uTurnPointTilemap = GameObject.FindGameObjectWithTag("U-Turn Point").GetComponent<Tilemap>();
         tunnelTilemap = GameObject.FindGameObjectWithTag("Tunnel").GetComponent<Tilemap>();
-        enterMazePos = new Vector2(-3.5f, 3);
-        transform.position = enterMazePos;
-        previousTilePos = enterMazePos;
-        mustResetDirectionSpeed = true;
-        directionSpeedMultiplier = 2;
         currentDirection.enumVal = Direction.Left;
-        currentDirection.vecVal = Vector2.left / 2;
-        nextTilePos = enterMazePos + currentDirection.vecVal;
+        currentDirection.vecVal = Vector2.left;
         tileTransitionPerc = 0;
+    }
+
+    public void SetSpawnPosition(Vector2 position)
+    {
+        transform.position = position;
+        previousTilePos = transform.position;
+        nextTilePos = previousTilePos + currentDirection.vecVal;
+        PerformHalfStep();
+    }
+
+    public void PerformHalfStep()
+    {
+        currentDirection.vecVal *= 0.5f;
+        nextTilePos = previousTilePos + currentDirection.vecVal;
+        mustResetHalfStep = true;
+        if (TryGetComponent(out Enemy enemy))
+        {
+            if (enemy.frightenIsQueued)
+            {
+                HalfMovementSpeedMultiplier();
+                enemy.frightenIsQueued = false;
+            }
+        }
     }
 
     void Update()
@@ -44,13 +60,13 @@ public class GridMovement : MonoBehaviour
         if (canMove)
         {
             // Increase between tile transition percentage
-            if (mustResetDirectionSpeed)
+            if (mustResetHalfStep)
             {
-                tileTransitionPerc += Time.deltaTime * movementSpeed * directionSpeedMultiplier;
+                tileTransitionPerc += Time.deltaTime * movementSpeed * movementSpeedMultiplier * 2;
             }
             else
             {
-                tileTransitionPerc += Time.deltaTime * movementSpeed;
+                tileTransitionPerc += Time.deltaTime * movementSpeed * movementSpeedMultiplier;
             }
 
             // If still transitioning,
@@ -62,10 +78,10 @@ public class GridMovement : MonoBehaviour
             // Else, upon reaching new tile check if change of direction is required
             else
             {
-                if (mustResetDirectionSpeed)
+                if (mustResetHalfStep)
                 {
-                    currentDirection.vecVal = Vector2.left;
-                    mustResetDirectionSpeed = false;
+                    currentDirection.vecVal *= 2;
+                    mustResetHalfStep = false;
                 }
                 tileTransitionPerc = 0;
                 transform.position = nextTilePos;
@@ -167,27 +183,9 @@ public class GridMovement : MonoBehaviour
         currentDirection = dirInfo;
     }
 
-    public DirectionInfo GetCurrentDirectionInfo()
-    {
-        return currentDirection;
-    }
-
-    public void SetSpawnPosition(Vector2 position, bool isHalfStepping)
-    {
-        enterMazePos = position;
-        transform.position = enterMazePos;
-        previousTilePos = enterMazePos;
-        if (isHalfStepping)
-        {
-            currentDirection.vecVal = Vector2.left / 2;
-            mustResetDirectionSpeed = isHalfStepping;
-        }
-        nextTilePos = enterMazePos + currentDirection.vecVal;
-    }
-
     public void InstantReverseDirection()
     {
-        if (!mustResetDirectionSpeed)
+        if (!mustResetHalfStep)
         {
             Vector2 oldNextTilePos = nextTilePos;
             nextTilePos = previousTilePos;
@@ -223,5 +221,31 @@ public class GridMovement : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public DirectionInfo GetCurrentDirectionInfo()
+    {
+        return currentDirection;
+    }
+
+    public void HalfMovementSpeedMultiplier()
+    {
+        movementSpeedMultiplier = 0.5f;
+    }
+
+    public void ResetMovementSpeedMultiplier()
+    {
+        movementSpeedMultiplier = 1;
+    }
+
+    public void DoubleMovementSpeedMultiplier()
+    {
+        movementSpeedMultiplier = 2;
+    }
+
+    public void UpdatePosition()
+    {
+        previousTilePos = transform.position;
+        nextTilePos = previousTilePos + currentDirection.vecVal;
     }
 }

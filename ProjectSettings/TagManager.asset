@@ -8,6 +8,8 @@ TagManager:
   - U-Turn Point
   - Wall
   - Tunnel
+  - TVA
+  - TVA Gate
   layers:
   - Default
   - TransparentFX

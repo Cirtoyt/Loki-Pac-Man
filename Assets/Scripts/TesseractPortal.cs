@@ -13,7 +13,7 @@ public class TesseractPortal : MonoBehaviour
     }
     private void SpawnLoki()
     {
-        loki = Instantiate(gm.GetLokiPrefab(), gm.GetSpawnPoint());
+        loki = Instantiate(gm.GetLokiPrefab(), gm.GetSpawnPoint().position, gm.GetSpawnPoint().rotation);
         gm.RemoveLife();
     }
 
