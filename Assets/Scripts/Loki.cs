@@ -13,13 +13,9 @@ public class Loki : MonoBehaviour
     {
         em = FindObjectOfType<EnemyManager>();
         gridMovement = GetComponent<GridMovement>();
-        gridMovement.SetSpawnPosition(transform.position);
+        DirectionInfo enterMazeDirection = new DirectionInfo { enumVal = Direction.Left, vecVal = Vector2.left };
+        gridMovement.SetSpawnPosition(enterMazeDirection, transform.position, true);
         queuedDirection = Direction.None;
-    }
-
-    void Update()
-    {
-        // movement stuff
     }
 
     public void CompareNewInput(Direction inputDirection)
@@ -133,7 +129,6 @@ public class Loki : MonoBehaviour
         {
             if (enemy.GetMovementState() == Enemy.MovementState.Frightened)
             {
-                Debug.Log("Hit");
                 enemy.RetreatToTVA();
                 em.CaptureEnemy();
             }

@@ -53,22 +53,22 @@ public class EnemyManager : MonoBehaviour
 
         enemies[0].personality = Enemy.Personality.Shadow;
         // enemies[0].Set texture
-        enemies[0].GetComponent<GridMovement>().SetSpawnPosition(enemySpawnPoints[0].position);
+        enemies[0].transform.position = enemySpawnPoints[0].position;
         enemies[0].SetHomeLocation(Enemy.HomeLocation.Centre);
 
         enemies[1].personality = Enemy.Personality.Speedy;
         // enemies[1].Set texture
-        enemies[1].GetComponent<GridMovement>().SetSpawnPosition(enemySpawnPoints[1].position);
+        enemies[1].transform.position = enemySpawnPoints[1].position;
         enemies[1].SetHomeLocation(Enemy.HomeLocation.Right);
 
         enemies[2].personality = Enemy.Personality.Bashful;
         // enemies[2].Set texture
-        enemies[2].GetComponent<GridMovement>().SetSpawnPosition(enemySpawnPoints[2].position);
+        enemies[2].transform.position = enemySpawnPoints[2].position;
         enemies[2].SetHomeLocation(Enemy.HomeLocation.Centre);
 
         enemies[3].personality = Enemy.Personality.Pokey;
         // enemies[3].Set texture
-        enemies[3].GetComponent<GridMovement>().SetSpawnPosition(enemySpawnPoints[3].position);
+        enemies[3].transform.position = enemySpawnPoints[3].position;
         enemies[3].SetHomeLocation(Enemy.HomeLocation.Left);
     }
 
@@ -133,6 +133,7 @@ public class EnemyManager : MonoBehaviour
         ResetEnemyRoamLoop();
         foreach (Enemy enemy in enemies)
             enemy.Frighten();
+        StopCoroutine(FrightenLoop());
         StartCoroutine(FrightenLoop());
     }
 
@@ -165,8 +166,7 @@ public class EnemyManager : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         foreach (Enemy enemy in enemies)
         {
-            if (enemy.GetMovementState() == Enemy.MovementState.Frightened)
-                enemy.EndFrighten();
+            enemy.EndFrighten();
         }
         enemyRoamLoop = true;
         frightenedPointTally = 0;
@@ -180,11 +180,27 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(EnemyRoamLoop());
     }
 
+    public void StopAllLoops()
+    {
+        enemyRoamLoop = false;
+        enemySpawnLoop = false;
+        enemyRoamLoopTimer = 0;
+        enemySpawnLoopTimer = 0;
+        StopAllCoroutines();
+    }
+
     public void FreezeEnemies()
     {
         foreach (Enemy enemy in enemies)
         {
-            enemy.GetComponent<GridMovement>().canMove = false;
+            if (enemy.GetMovementState() != Enemy.MovementState.InTVA && enemy.GetMovementState() != Enemy.MovementState.LeavingTVA)
+            {
+                enemy.GetComponent<GridMovement>().canMove = false;
+            }
+            else
+            {
+                enemy.canMoveInTVA = false;
+            }
         }
     }
 
@@ -192,7 +208,14 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (Enemy enemy in enemies)
         {
-            enemy.GetComponent<GridMovement>().canMove = true;
+            if (enemy.GetMovementState() != Enemy.MovementState.InTVA && enemy.GetMovementState() != Enemy.MovementState.LeavingTVA)
+            {
+                enemy.GetComponent<GridMovement>().canMove = true;
+            }
+            else
+            {
+                enemy.canMoveInTVA = true;
+            }
         }
     }
 
@@ -204,5 +227,32 @@ public class EnemyManager : MonoBehaviour
     public Vector2 GetShadowPosition()
     {
         return enemies[3].transform.position;
+    }
+
+    public void DestroyAllEnemies()
+    {
+        foreach (Enemy enemy in enemies)
+        {
+            Destroy(enemy.gameObject);
+        }
+        enemies.Clear();
+    }
+
+    public void DestroyEnemiesBarOne(Enemy excludedEnemy)
+    {
+        for (var i = enemies.Count - 1; i > -1; i--)
+        {
+            if (enemies[i] != excludedEnemy)
+            {
+                Destroy(enemies[i].gameObject);
+                enemies.RemoveAt(i);
+            }
+        }
+    }
+
+    public void DestroyEnemy(Enemy enemy)
+    {
+        enemies.Remove(enemy);
+        Destroy(enemy.gameObject);
     }
 }

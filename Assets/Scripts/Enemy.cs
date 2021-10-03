@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
         Scatter,
         Frightened,
         LeavingTVA,
-        RetreatingToTVA,
+        RetreatingToTVA
     }
 
     public enum HomeLocation
@@ -32,20 +32,20 @@ public class Enemy : MonoBehaviour
     }
 
     public Personality personality;
-    
-    [HideInInspector] public bool frightenIsQueued = false;
 
+    [HideInInspector] public bool canMoveInTVA = true;
+    
     private GameManager gm;
     private EnemyManager em;
     private GridMovement gridMovement;
     private Animator anim;
     private Tilemap TVAGateTilemap;
-    private MovementState movementState;
+    [SerializeField] private MovementState movementState;
     private HomeLocation homeLocation;
     private DirectionInfo inTVADirection;
-    private MovementState preFrightenState;
     private bool canCapturePlayer;
     private float leavingTVAPerc = 0;
+    private bool frightenIsQueued = false;
     private MovementState currentWanderState = MovementState.Scatter;
 
     void Start()
@@ -60,12 +60,15 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (movementState == MovementState.InTVA)
+        if (movementState == MovementState.InTVA && canMoveInTVA)
         {
             //anim.SetFloat(inHouseDirection
-            transform.position += (Vector3)inTVADirection.vecVal * Time.deltaTime * em.GetInTVASpeed();
+            if (frightenIsQueued)
+                transform.position += (Vector3)inTVADirection.vecVal * Time.deltaTime * (em.GetInTVASpeed() / 2);
+            else
+                transform.position += (Vector3)inTVADirection.vecVal * Time.deltaTime * em.GetInTVASpeed();
         }
-        else if (movementState == MovementState.LeavingTVA)
+        else if (movementState == MovementState.LeavingTVA && canMoveInTVA)
         {
             leavingTVAPerc += Time.deltaTime;
 
@@ -89,10 +92,16 @@ public class Enemy : MonoBehaviour
                         {
                             leavingTVAPerc = 0;
                             transform.position = em.enemySpawnPoints[0].position;
-                            gridMovement.UpdatePosition();
+                            DirectionInfo enterMazeDirection = new DirectionInfo { enumVal = Direction.Left, vecVal = Vector2.left };
+                            gridMovement.SetSpawnPosition(enterMazeDirection, transform.position, true);
+                            gridMovement.ResetMovementSpeedMultiplier();
                             gridMovement.canMove = true;
                             if (frightenIsQueued)
+                            {
                                 movementState = MovementState.Frightened;
+                                gridMovement.HalfMovementSpeedMultiplier();
+                                frightenIsQueued = false;
+                            }
                             else
                                 movementState = currentWanderState;
                         }
@@ -282,6 +291,8 @@ public class Enemy : MonoBehaviour
 
     public void SetupOutsideTVA()
     {
+        DirectionInfo enterMazeDirection = new DirectionInfo { enumVal = Direction.Left, vecVal = Vector2.left };
+        gridMovement.SetSpawnPosition(enterMazeDirection, transform.position, true);
         movementState = currentWanderState;
         gridMovement.canMove = true;
     }
@@ -298,29 +309,27 @@ public class Enemy : MonoBehaviour
 
     public void SwitchToChase()
     {
-        if (currentWanderState == MovementState.Scatter)
+        if (movementState == MovementState.Scatter)
         {
-            currentWanderState = MovementState.Chasing;
             movementState = MovementState.Chasing;
         }
+        currentWanderState = MovementState.Chasing;
     }
 
     public void SwitchToScatter()
     {
-        if (currentWanderState == MovementState.Chasing)
+        if (movementState == MovementState.Chasing)
         {
-            currentWanderState = MovementState.Scatter;
             movementState = MovementState.Scatter;
         }
+        currentWanderState = MovementState.Scatter;
     }
 
     public void Frighten()
     {
         if (movementState == MovementState.Chasing || movementState == MovementState.Scatter)
         {
-            preFrightenState = movementState;
             gridMovement.InstantReverseDirection();
-            gridMovement.HalfMovementSpeedMultiplier();
             movementState = MovementState.Frightened;
         }
         else
@@ -328,6 +337,7 @@ public class Enemy : MonoBehaviour
             frightenIsQueued = true;
         }
 
+        gridMovement.HalfMovementSpeedMultiplier();
         GetComponent<SpriteRenderer>().color = Color.blue;
         canCapturePlayer = false;
     }
@@ -335,11 +345,11 @@ public class Enemy : MonoBehaviour
     public void SetSpriteAsFrightened(bool isNowFrightened)
     {
         //anim.SetBool("Frightened", isNowFrightened);
-        if (isNowFrightened)
+        if (isNowFrightened && (movementState == MovementState.Frightened || frightenIsQueued))
         {
             GetComponent<SpriteRenderer>().color = Color.blue;
         }
-        else
+        else if (!isNowFrightened && (movementState == MovementState.Frightened || frightenIsQueued))
         {
             GetComponent<SpriteRenderer>().color = Color.white;
         }
@@ -356,10 +366,11 @@ public class Enemy : MonoBehaviour
     {
         if (movementState == MovementState.Frightened)
         {
-            movementState = preFrightenState;
+            movementState = currentWanderState;
+            gridMovement.ResetMovementSpeedMultiplier();
         }
 
-        gridMovement.ResetMovementSpeedMultiplier();
+        frightenIsQueued = false;
         canCapturePlayer = true;
         GetComponent<SpriteRenderer>().color = Color.white;
     }
@@ -373,8 +384,7 @@ public class Enemy : MonoBehaviour
     {
         if (collision.tag == "Player" && canCapturePlayer)
         {
-            Debug.Log("Dead");
-            gm.EndRound();
+            gm.LoseRound(this);
         }
         else if (movementState == MovementState.InTVA && collision.tag == "TVA")
         {

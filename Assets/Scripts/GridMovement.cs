@@ -18,7 +18,7 @@ public class GridMovement : MonoBehaviour
     private bool mustResetHalfStep;
     private DirectionInfo currentDirection;
     private Vector2 nextTilePos;
-    private float tileTransitionPerc;
+    private float tileTransitionPerc = 0;
 
     void Awake()
     {
@@ -27,17 +27,15 @@ public class GridMovement : MonoBehaviour
         decisionPointTilemap = GameObject.FindGameObjectWithTag("Decision Point").GetComponent<Tilemap>();
         uTurnPointTilemap = GameObject.FindGameObjectWithTag("U-Turn Point").GetComponent<Tilemap>();
         tunnelTilemap = GameObject.FindGameObjectWithTag("Tunnel").GetComponent<Tilemap>();
-        currentDirection.enumVal = Direction.Left;
-        currentDirection.vecVal = Vector2.left;
-        tileTransitionPerc = 0;
     }
 
-    public void SetSpawnPosition(Vector2 position)
+    public void SetSpawnPosition(DirectionInfo directionInfo, Vector2 position, bool requiresHalfStep)
     {
-        transform.position = position;
+        currentDirection = directionInfo;
         previousTilePos = transform.position;
         nextTilePos = previousTilePos + currentDirection.vecVal;
-        PerformHalfStep();
+        if (requiresHalfStep)
+            PerformHalfStep();
     }
 
     public void PerformHalfStep()
@@ -45,14 +43,6 @@ public class GridMovement : MonoBehaviour
         currentDirection.vecVal *= 0.5f;
         nextTilePos = previousTilePos + currentDirection.vecVal;
         mustResetHalfStep = true;
-        if (TryGetComponent(out Enemy enemy))
-        {
-            if (enemy.frightenIsQueued)
-            {
-                HalfMovementSpeedMultiplier();
-                enemy.frightenIsQueued = false;
-            }
-        }
     }
 
     void Update()

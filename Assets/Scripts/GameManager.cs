@@ -10,12 +10,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text ReadyText;
     [SerializeField] private TextBlinker pauseGameText;
     [SerializeField] private Text scoreValueText;
-    [SerializeField] private GameObject tesseractPrefab;
+    [SerializeField] private GameObject tesseractPortalPrefab;
     [SerializeField] private GameObject lokiPrefab;
-    [SerializeField] Transform lokiSpawnPoint;
+    [SerializeField] private GameObject pelletsPrefab;
+    [SerializeField] private GameObject TVAPortalPrefab;
+    [SerializeField] private Transform lokiSpawnPoint;
     [SerializeField] private int defaultLives;
-    [SerializeField] private int maxLives;
-    [SerializeField] GameObject pelletsPrefab;
 
     public enum GameState
     {
@@ -26,16 +26,19 @@ public class GameManager : MonoBehaviour
     }
 
     private EnemyManager em;
+    private LivesHUD livesHUD;
     private Loki loki;
     private GameState gameState;
     private int lives;
     private int score;
     private GameObject instantiatedPellets;
+    private bool TVAPortalHasClosed = false;
 
     void Start()
     {
         scoreValueText.text = "0";
         em = GetComponent<EnemyManager>();
+        livesHUD = FindObjectOfType<LivesHUD>();
         loki = null;
         gameState = GameState.BeginScreen;
         lives = defaultLives;
@@ -79,7 +82,7 @@ public class GameManager : MonoBehaviour
         RandomiseLogo();
         yield return new WaitForSeconds(1);
         // Begin Loki spawn animation (takes 1 second)
-        Instantiate(tesseractPrefab, lokiSpawnPoint);
+        Instantiate(tesseractPortalPrefab, lokiSpawnPoint);
         yield return new WaitUntil(() => loki);
         em.SpawnEnemies();
         yield return new WaitForSeconds(1);
@@ -93,6 +96,7 @@ public class GameManager : MonoBehaviour
     public void RemoveLife()
     {
         lives--;
+        livesHUD.RemoveLife();
     }
 
     public void AddLokiRef(Loki _loki)
@@ -103,17 +107,6 @@ public class GameManager : MonoBehaviour
     private void RandomiseLogo()
     {
 
-    }
-
-    private IEnumerator CaptureLoki(/*last enemy reference?*/)
-    {
-        yield return new WaitForSeconds(0);
-        // Destroy last remaining enemy
-    }
-
-    public void RemoveLokiRef()
-    {
-        loki = null;
     }
 
     private void PauseGame()
@@ -142,36 +135,69 @@ public class GameManager : MonoBehaviour
         em.UnfreezeEnemies();
     }
 
-    public void EndRound()
+    public void WinRound()
     {
-        StartCoroutine(EndRoundCoroutine());
+        StartCoroutine(WinRoundCoroutine());
     }
 
-    private IEnumerator EndRoundCoroutine()
+    private IEnumerator WinRoundCoroutine()
     {
         FreezeGameAndInputs();
-        // Destroy enemies (except the one who caught Loki)
+        em.StopAllLoops();
+        yield return new WaitForSeconds(2);
+        em.DestroyAllEnemies();
+        Destroy(loki.gameObject);
+        loki = null;
         yield return new WaitForSeconds(1);
-        StartCoroutine(CaptureLoki(/*last enemy reference?*/));
-        yield return new WaitUntil(() => true);
+        Destroy(instantiatedPellets);
+        instantiatedPellets = Instantiate(pelletsPrefab);
+        StartCoroutine(BeginGame());
+    }
+
+    public void LoseRound(Enemy catcher)
+    {
+        StartCoroutine(LoseRoundCoroutine(catcher));
+    }
+
+    private IEnumerator LoseRoundCoroutine(Enemy catcher)
+    {
+        FreezeGameAndInputs();
+        em.StopAllLoops();
+        em.DestroyEnemiesBarOne(catcher);
+        Instantiate(TVAPortalPrefab, loki.transform.position, loki.transform.rotation);
+        yield return new WaitUntil(() => TVAPortalHasClosed);
+        TVAPortalHasClosed = false;
+        yield return new WaitForSeconds(1);
+        em.DestroyEnemy(catcher);
         if (lives > 0)
         {
-            gameState = GameState.BeginScreen;
-            beginGameText.EnableText();
-            lives--;
-            em.ResetEnemyRoamLoop();
+            // Start next round
+            StartCoroutine(BeginGame());
         }
         else
         {
+            // Reset score, lives, pellets & return to begin screen
             yield return new WaitForSeconds(2);
             score = 0;
+            scoreValueText.text = score.ToString();
             lives = defaultLives;
+            livesHUD.ResetLives();
             Destroy(instantiatedPellets);
             instantiatedPellets = Instantiate(pelletsPrefab);
             // remove any bonus items
             gameState = GameState.BeginScreen;
             beginGameText.EnableText();
         }
+    }
+
+    public void RemoveLokiRef()
+    {
+        loki = null;
+    }
+
+    public void CloseTVAPortal()
+    {
+        TVAPortalHasClosed = true;
     }
 
     public int GetScore()
