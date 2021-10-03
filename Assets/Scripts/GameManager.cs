@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject TVAPortalPrefab;
     [SerializeField] private Transform lokiSpawnPoint;
     [SerializeField] private int defaultLives;
+    [SerializeField] private List<GameObject> LTilemapList;
+    [SerializeField] private List<GameObject> KTilemapList;
+    [SerializeField] private List<GameObject> ITilemapList;
 
     public enum GameState
     {
@@ -33,6 +36,10 @@ public class GameManager : MonoBehaviour
     private int score;
     private GameObject instantiatedPellets;
     private bool TVAPortalHasClosed = false;
+    private Transform wallTilemap;
+    private GameObject currentLTilemap;
+    private GameObject currentKTilemap;
+    private GameObject currentITilemap;
 
     void Start()
     {
@@ -47,11 +54,10 @@ public class GameManager : MonoBehaviour
         beginGameText.EnableText();
         ReadyText.enabled = false;
         pauseGameText.DisableText();
-    }
-
-    void Update()
-    {
-        
+        wallTilemap = GameObject.FindGameObjectWithTag("Wall").transform;
+        currentLTilemap = Instantiate(LTilemapList[0], wallTilemap.parent);
+        currentKTilemap = Instantiate(KTilemapList[0], wallTilemap.parent);
+        currentITilemap = Instantiate(ITilemapList[0], wallTilemap.parent);
     }
 
     private void OnStartPause()
@@ -76,11 +82,17 @@ public class GameManager : MonoBehaviour
         beginGameText.DisableText();
         ReadyText.enabled = true;
         RandomiseLogo();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         RandomiseLogo();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         RandomiseLogo();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
+        RandomiseLogo();
+        yield return new WaitForSeconds(0.5f);
+        RandomiseLogo();
+        yield return new WaitForSeconds(0.5f);
+        RandomiseLogo();
+        yield return new WaitForSeconds(0.5f);
         // Begin Loki spawn animation (takes 1 second)
         Instantiate(tesseractPortalPrefab, lokiSpawnPoint);
         yield return new WaitUntil(() => loki);
@@ -106,7 +118,13 @@ public class GameManager : MonoBehaviour
 
     private void RandomiseLogo()
     {
+        Destroy(currentLTilemap);
+        Destroy(currentKTilemap);
+        Destroy(currentITilemap);
 
+        currentLTilemap = Instantiate(LTilemapList[Random.Range(0, LTilemapList.Count)], wallTilemap.parent);
+        currentKTilemap = Instantiate(KTilemapList[Random.Range(0, KTilemapList.Count)], wallTilemap.parent);
+        currentITilemap = Instantiate(ITilemapList[Random.Range(0, ITilemapList.Count)], wallTilemap.parent);
     }
 
     private void PauseGame()

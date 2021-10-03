@@ -10,6 +10,9 @@ TagManager:
   - Tunnel
   - TVA
   - TVA Gate
+  - L Wall
+  - K Wall
+  - I Wall
   layers:
   - Default
   - TransparentFX

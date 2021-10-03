@@ -11,6 +11,9 @@ public class GridMovement : MonoBehaviour
     [HideInInspector] public bool canMove;
 
     private Tilemap wallTilemap;
+    private Tilemap LTilemap;
+    private Tilemap KTilemap;
+    private Tilemap ITilemap;
     private Tilemap decisionPointTilemap;
     private Tilemap uTurnPointTilemap;
     private Tilemap tunnelTilemap;
@@ -24,6 +27,9 @@ public class GridMovement : MonoBehaviour
     {
         canMove = false;
         wallTilemap = GameObject.FindGameObjectWithTag("Wall").GetComponent<Tilemap>();
+        LTilemap = GameObject.FindGameObjectWithTag("L Wall").GetComponent<Tilemap>();
+        KTilemap = GameObject.FindGameObjectWithTag("K Wall").GetComponent<Tilemap>();
+        ITilemap = GameObject.FindGameObjectWithTag("I Wall").GetComponent<Tilemap>();
         decisionPointTilemap = GameObject.FindGameObjectWithTag("Decision Point").GetComponent<Tilemap>();
         uTurnPointTilemap = GameObject.FindGameObjectWithTag("U-Turn Point").GetComponent<Tilemap>();
         tunnelTilemap = GameObject.FindGameObjectWithTag("Tunnel").GetComponent<Tilemap>();
@@ -131,6 +137,9 @@ public class GridMovement : MonoBehaviour
         Vector3Int upRightGridPos = wallTilemap.WorldToCell(transform.position + (Vector3.up * 1.5f) + (Vector3.right / 2));
         Vector3Int upLeftGridPos = wallTilemap.WorldToCell(transform.position + (Vector3.up * 1.5f) + (Vector3.left / 2));
         if (!wallTilemap.HasTile(upRightGridPos) && !wallTilemap.HasTile(upLeftGridPos)
+            && !LTilemap.HasTile(upRightGridPos) && !LTilemap.HasTile(upLeftGridPos)
+            && !KTilemap.HasTile(upRightGridPos) && !KTilemap.HasTile(upLeftGridPos)
+            && !ITilemap.HasTile(upRightGridPos) && !ITilemap.HasTile(upLeftGridPos)
             && (currentDirection.enumVal != Direction.Down || canReverse))
         {
             possibleDirections.Add(new DirectionInfo { enumVal = Direction.Up, vecVal = Vector2.up });
@@ -140,6 +149,9 @@ public class GridMovement : MonoBehaviour
         Vector3Int downRightGridPos = wallTilemap.WorldToCell(transform.position + (Vector3.down * 1.5f) + (Vector3.right / 2));
         Vector3Int downLeftGridPos = wallTilemap.WorldToCell(transform.position + (Vector3.down * 1.5f) + (Vector3.left / 2));
         if (!wallTilemap.HasTile(downRightGridPos) && !wallTilemap.HasTile(downLeftGridPos)
+            && !LTilemap.HasTile(downRightGridPos) && !LTilemap.HasTile(downLeftGridPos)
+            && !KTilemap.HasTile(downRightGridPos) && !KTilemap.HasTile(downLeftGridPos)
+            && !ITilemap.HasTile(downRightGridPos) && !ITilemap.HasTile(downLeftGridPos)
             && (currentDirection.enumVal != Direction.Up || canReverse))
         {
             possibleDirections.Add(new DirectionInfo { enumVal = Direction.Down, vecVal = Vector2.down });
@@ -149,6 +161,9 @@ public class GridMovement : MonoBehaviour
         Vector3Int leftUpGridPos = wallTilemap.WorldToCell(transform.position + (Vector3.left * 1.5f) + (Vector3.up / 2));
         Vector3Int leftDownGridPos = wallTilemap.WorldToCell(transform.position + (Vector3.left * 1.5f) + (Vector3.down / 2));
         if (!wallTilemap.HasTile(leftUpGridPos) && !wallTilemap.HasTile(leftDownGridPos)
+            && !LTilemap.HasTile(leftUpGridPos) && !LTilemap.HasTile(leftDownGridPos)
+            && !KTilemap.HasTile(leftUpGridPos) && !KTilemap.HasTile(leftDownGridPos)
+            && !ITilemap.HasTile(leftUpGridPos) && !ITilemap.HasTile(leftDownGridPos)
             && (currentDirection.enumVal != Direction.Right || canReverse))
         {
             possibleDirections.Add(new DirectionInfo { enumVal = Direction.Left, vecVal = Vector2.left });
@@ -158,6 +173,9 @@ public class GridMovement : MonoBehaviour
         Vector3Int rightUpGridPos = wallTilemap.WorldToCell(transform.position + (Vector3.right * 1.5f) + (Vector3.up / 2));
         Vector3Int rightDownGridPos = wallTilemap.WorldToCell(transform.position + (Vector3.right * 1.5f) + (Vector3.down / 2));
         if (!wallTilemap.HasTile(rightUpGridPos) && !wallTilemap.HasTile(rightDownGridPos)
+            && !LTilemap.HasTile(rightUpGridPos) && !LTilemap.HasTile(rightDownGridPos)
+            && !KTilemap.HasTile(rightUpGridPos) && !KTilemap.HasTile(rightDownGridPos)
+            && !ITilemap.HasTile(rightUpGridPos) && !ITilemap.HasTile(rightDownGridPos)
             && (currentDirection.enumVal != Direction.Left || canReverse))
         {
             possibleDirections.Add(new DirectionInfo { enumVal = Direction.Right, vecVal = Vector2.right });
