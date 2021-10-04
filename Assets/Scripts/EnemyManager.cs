@@ -10,6 +10,10 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float inTVASpeed;
     public List<Transform> enemyCornerTargets;
     [SerializeField] private int catchEnemyPointWorth;
+    [SerializeField] private Color enemy1ColourTint;
+    [SerializeField] private Color enemy2ColourTint;
+    [SerializeField] private Color enemy3ColourTint;
+    [SerializeField] private Color enemy4ColourTint;
     [Header("Debug")]
     [SerializeField] private List<Enemy> enemies;
 
@@ -53,21 +57,25 @@ public class EnemyManager : MonoBehaviour
 
         enemies[0].personality = Enemy.Personality.Shadow;
         // enemies[0].Set texture
+        enemies[0].GetComponent<SpriteRenderer>().color = enemy1ColourTint;
         enemies[0].transform.position = enemySpawnPoints[0].position;
         enemies[0].SetHomeLocation(Enemy.HomeLocation.Centre);
 
         enemies[1].personality = Enemy.Personality.Speedy;
         // enemies[1].Set texture
+        enemies[1].GetComponent<SpriteRenderer>().color = enemy2ColourTint;
         enemies[1].transform.position = enemySpawnPoints[1].position;
         enemies[1].SetHomeLocation(Enemy.HomeLocation.Right);
 
         enemies[2].personality = Enemy.Personality.Bashful;
         // enemies[2].Set texture
+        enemies[2].GetComponent<SpriteRenderer>().color = enemy3ColourTint;
         enemies[2].transform.position = enemySpawnPoints[2].position;
         enemies[2].SetHomeLocation(Enemy.HomeLocation.Centre);
 
         enemies[3].personality = Enemy.Personality.Pokey;
         // enemies[3].Set texture
+        enemies[3].GetComponent<SpriteRenderer>().color = enemy4ColourTint;
         enemies[3].transform.position = enemySpawnPoints[3].position;
         enemies[3].SetHomeLocation(Enemy.HomeLocation.Left);
     }

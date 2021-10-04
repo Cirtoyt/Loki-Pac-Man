@@ -20,6 +20,7 @@ public class Pellet : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            collision.GetComponent<Loki>().PlayWakaWakaSound();
             spriteRenderer.enabled = false;
             gm.AddScore(pm.GetPelletPointWorth());
             pm.RemovePellet();

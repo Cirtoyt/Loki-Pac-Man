@@ -11,6 +11,7 @@ public class TVAPortal : MonoBehaviour
     {
         gm = FindObjectOfType<GameManager>();
         loki = GameObject.FindGameObjectWithTag("Player");
+        loki.GetComponent<Loki>().PlayDeathSound();
     }
     private void DestroyLoki()
     {

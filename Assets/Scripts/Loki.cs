@@ -5,17 +5,37 @@ using UnityEngine.Tilemaps;
 
 public class Loki : MonoBehaviour
 {
+    [SerializeField] private AudioSource wakawakaSource;
+    [SerializeField] private AudioSource deathSource;
+    [SerializeField] private AudioSource enemyCaptureSource;
+    [SerializeField] private AudioSource pickupTesseractSource;
+
+    private GameManager gm;
     private EnemyManager em;
     private GridMovement gridMovement;
+    private Animator anim;
     private Direction queuedDirection;
+    private Coroutine currentWakaWakaCoroutine;
 
     void Start()
     {
+        gm = FindObjectOfType<GameManager>();
         em = FindObjectOfType<EnemyManager>();
         gridMovement = GetComponent<GridMovement>();
+        anim = GetComponent<Animator>();
         DirectionInfo enterMazeDirection = new DirectionInfo { enumVal = Direction.Left, vecVal = Vector2.left };
         gridMovement.SetSpawnPosition(enterMazeDirection, transform.position, true);
         queuedDirection = Direction.None;
+        wakawakaSource.volume = 0;
+    }
+
+    private void Update()
+    {
+        if (gridMovement.GetCurrentDirectionInfo().vecVal.magnitude > 0.1)
+        {
+            anim.SetFloat("walkingRight", gridMovement.GetCurrentDirectionInfo().vecVal.x);
+            anim.SetFloat("walkingUp", gridMovement.GetCurrentDirectionInfo().vecVal.y);
+        }
     }
 
     public void CompareNewInput(Direction inputDirection)
@@ -123,15 +143,50 @@ public class Loki : MonoBehaviour
         gridMovement.canMove = true;
     }
 
+    public void PlayWakaWakaSound()
+    {
+        if (currentWakaWakaCoroutine != null)
+        {
+            StopCoroutine(currentWakaWakaCoroutine);
+        }
+        currentWakaWakaCoroutine = StartCoroutine(PlayWakaWakaSoundCoroutine());
+    }
+
+    private IEnumerator PlayWakaWakaSoundCoroutine()
+    {
+        wakawakaSource.volume = 0.6f;
+        yield return new WaitForSeconds(0.3f);
+        wakawakaSource.volume = 0;
+    }
+
+    public void PlayDeathSound()
+    {
+        deathSource.Play();
+    }
+
+    public void PlayerPickupTesseractSound()
+    {
+        pickupTesseractSource.Play();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Enemy enemy))
         {
             if (enemy.GetMovementState() == Enemy.MovementState.Frightened)
             {
-                enemy.RetreatToTVA();
-                em.CaptureEnemy();
+                StartCoroutine(CaptureEnemy(enemy));
             }
         }
+    }
+
+    private IEnumerator CaptureEnemy(Enemy enemy)
+    {
+        enemyCaptureSource.Play();
+        gm.FreezeGameButNoPauseText();
+        yield return new WaitForSeconds(0.6f);
+        gm.UnfreezeGameButNoPauseText();
+        enemy.RetreatToTVA();
+        em.CaptureEnemy();
     }
 }

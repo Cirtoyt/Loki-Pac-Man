@@ -21,6 +21,7 @@ public class Tesseract : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            collision.GetComponent<Loki>().PlayerPickupTesseractSound();
             spriteRenderer.enabled = false;
             gm.AddScore(pm.GetTesseractPointWorth());
             pm.RemovePellet();

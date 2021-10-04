@@ -47,6 +47,7 @@ public class Enemy : MonoBehaviour
     private float leavingTVAPerc = 0;
     private bool frightenIsQueued = false;
     private MovementState currentWanderState = MovementState.Scatter;
+    private Color baseSpriteColour;
 
     void Start()
     {
@@ -56,13 +57,15 @@ public class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
         TVAGateTilemap = GameObject.FindGameObjectWithTag("TVA Gate").GetComponent<Tilemap>();
         canCapturePlayer = true;
+        baseSpriteColour = GetComponent<SpriteRenderer>().color;
     }
 
     void Update()
     {
         if (movementState == MovementState.InTVA && canMoveInTVA)
         {
-            //anim.SetFloat(inHouseDirection
+            anim.SetFloat("walkingRight", inTVADirection.vecVal.x);
+            anim.SetFloat("walkingUp", inTVADirection.vecVal.y);
             if (frightenIsQueued)
                 transform.position += (Vector3)inTVADirection.vecVal * Time.deltaTime * (em.GetInTVASpeed() / 2);
             else
@@ -76,6 +79,8 @@ public class Enemy : MonoBehaviour
             {
                 case HomeLocation.Right:
                     {
+                        anim.SetFloat("walkingRight", -1);
+                        anim.SetFloat("walkingUp", 0);
                         transform.position = Vector2.Lerp(em.enemySpawnPoints[1].position, em.enemySpawnPoints[2].position, leavingTVAPerc);
                         if (leavingTVAPerc > 1)
                         {
@@ -87,6 +92,8 @@ public class Enemy : MonoBehaviour
                     break;
                 case HomeLocation.Centre:
                     {
+                        anim.SetFloat("walkingRight", 0);
+                        anim.SetFloat("walkingUp", 1);
                         transform.position = Vector2.Lerp(em.enemySpawnPoints[2].position, em.enemySpawnPoints[0].position, leavingTVAPerc);
                         if (leavingTVAPerc > 1)
                         {
@@ -109,6 +116,8 @@ public class Enemy : MonoBehaviour
                     break;
                 case HomeLocation.Left:
                     {
+                        anim.SetFloat("walkingRight", 1);
+                        anim.SetFloat("walkingUp", 0);
                         transform.position = Vector2.Lerp(em.enemySpawnPoints[3].position, em.enemySpawnPoints[2].position, leavingTVAPerc);
                         if (leavingTVAPerc > 1)
                         {
@@ -120,6 +129,8 @@ public class Enemy : MonoBehaviour
                     break;
                 case HomeLocation.Outside:
                     {
+                        anim.SetFloat("walkingRight", 0);
+                        anim.SetFloat("walkingUp", -1);
                         transform.position = Vector2.Lerp(em.enemySpawnPoints[0].position, em.enemySpawnPoints[2].position, leavingTVAPerc);
                         if (leavingTVAPerc > 1)
                         {
@@ -134,6 +145,8 @@ public class Enemy : MonoBehaviour
         }
         else if (movementState == MovementState.RetreatingToTVA)
         {
+            anim.SetFloat("walkingRight", gridMovement.GetCurrentDirectionInfo().vecVal.x);
+            anim.SetFloat("walkingUp", gridMovement.GetCurrentDirectionInfo().vecVal.y);
             Vector3Int gridPos = TVAGateTilemap.WorldToCell(transform.position);
             if (TVAGateTilemap.HasTile(gridPos))
             {
@@ -144,7 +157,8 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            //anime.SetFloat(gridMovement.GetCurrentDirectionInfo
+            anim.SetFloat("walkingRight", gridMovement.GetCurrentDirectionInfo().vecVal.x);
+            anim.SetFloat("walkingUp", gridMovement.GetCurrentDirectionInfo().vecVal.y);
         }
     }
 
@@ -351,7 +365,7 @@ public class Enemy : MonoBehaviour
         }
         else if (!isNowFrightened && (movementState == MovementState.Frightened || frightenIsQueued))
         {
-            GetComponent<SpriteRenderer>().color = Color.white;
+            GetComponent<SpriteRenderer>().color = baseSpriteColour;
         }
     }
 
@@ -372,7 +386,7 @@ public class Enemy : MonoBehaviour
 
         frightenIsQueued = false;
         canCapturePlayer = true;
-        GetComponent<SpriteRenderer>().color = Color.white;
+        GetComponent<SpriteRenderer>().color = baseSpriteColour;
     }
 
     public MovementState GetMovementState()

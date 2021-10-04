@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text ReadyText;
     [SerializeField] private TextBlinker pauseGameText;
     [SerializeField] private Text scoreValueText;
+    [SerializeField] private Text hiScoreValueText;
     [SerializeField] private GameObject tesseractPortalPrefab;
     [SerializeField] private GameObject lokiPrefab;
     [SerializeField] private GameObject pelletsPrefab;
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
     private GameState gameState;
     private int lives;
     private int score;
+    private int hiScore = 0;
     private GameObject instantiatedPellets;
     private bool TVAPortalHasClosed = false;
     private Transform wallTilemap;
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         scoreValueText.text = "0";
+        hiScoreValueText.text = "0";
         em = GetComponent<EnemyManager>();
         livesHUD = FindObjectOfType<LivesHUD>();
         loki = null;
@@ -140,6 +143,13 @@ public class GameManager : MonoBehaviour
         em.FreezeEnemies();
     }
 
+    public void FreezeGameButNoPauseText()
+    {
+        gameState = GameState.PauseScreen;
+        loki.Freeze();
+        em.FreezeEnemies();
+    }
+
     private void UnPauseGame()
     {
         gameState = GameState.InGame;
@@ -149,6 +159,13 @@ public class GameManager : MonoBehaviour
 
     private void UnfreezeGameAndInputs()
     {
+        loki.Unfreeze();
+        em.UnfreezeEnemies();
+    }
+
+    public void UnfreezeGameButNoPauseText()
+    {
+        gameState = GameState.InGame;
         loki.Unfreeze();
         em.UnfreezeEnemies();
     }
@@ -196,6 +213,11 @@ public class GameManager : MonoBehaviour
         {
             // Reset score, lives, pellets & return to begin screen
             yield return new WaitForSeconds(2);
+            if (score > hiScore)
+            {
+                hiScore = score;
+                hiScoreValueText.text = hiScore.ToString();
+            }
             score = 0;
             scoreValueText.text = score.ToString();
             lives = defaultLives;
