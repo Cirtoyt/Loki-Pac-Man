@@ -217,17 +217,20 @@ public class Enemy : MonoBehaviour
             case Personality.Shadow:
                 {
                     target = lokiPos;
+                    Debug.DrawRay(target, Vector2.up, Color.red, 1);
                 }
                 break;
             case Personality.Speedy:
                 {
-                    target = lokiPos + (FindObjectOfType<Loki>().GetComponent<GridMovement>().GetCurrentDirectionInfo().vecVal * 2);
+                    target = lokiPos + (FindObjectOfType<Loki>().GetComponent<GridMovement>().GetCurrentDirectionInfo().vecVal * 4);
+                    Debug.DrawRay(target, Vector2.up, Color.magenta, 1);
                 }
                 break;
             case Personality.Bashful:
                 {
                     Vector2 direction = (lokiPos - em.GetShadowPosition()).normalized;
-                    target = lokiPos + (direction * 2);
+                    target = lokiPos + (direction * 8);
+                    Debug.DrawRay(target, Vector2.up, Color.cyan, 1);
                 }
                 break;
             case Personality.Pokey:
@@ -235,10 +238,12 @@ public class Enemy : MonoBehaviour
                     if (Vector2.Distance(transform.position, lokiPos) > 8)
                     {
                         target = lokiPos;
+                        Debug.DrawRay(target, Vector2.up, Color.yellow, 1);
                     }
                     else
                     {
                         target = em.enemyCornerTargets[3].position;
+                        Debug.DrawRay(target, Vector2.up, Color.yellow, 1);
                     }
                 }
                 break;
@@ -265,21 +270,25 @@ public class Enemy : MonoBehaviour
             case Personality.Shadow:
                 {
                     target = em.enemyCornerTargets[0].position;
+                    Debug.DrawRay(target, Vector2.up, Color.red, 1);
                 }
                 break;
             case Personality.Speedy:
                 {
                     target = em.enemyCornerTargets[1].position;
+                    Debug.DrawRay(target, Vector2.up, Color.magenta, 1);
                 }
                 break;
             case Personality.Bashful:
                 {
                     target = em.enemyCornerTargets[2].position;
+                    Debug.DrawRay(target, Vector2.up, Color.cyan, 1);
                 }
                 break;
             case Personality.Pokey:
                 {
                     target = em.enemyCornerTargets[3].position;
+                    Debug.DrawRay(target, Vector2.up, Color.yellow, 1);
                 }
                 break;
         }

@@ -1956,10 +1956,10 @@ MonoBehaviour:
   - {fileID: 1670471574}
   - {fileID: 845141086}
   catchEnemyPointWorth: 200
-  enemy1ColourTint: {r: 1, g: 0.5058824, b: 0.44705883, a: 1}
-  enemy2ColourTint: {r: 0.8980392, g: 0.44705883, b: 1, a: 1}
-  enemy3ColourTint: {r: 0.44705883, g: 1, b: 0.7647059, a: 1}
-  enemy4ColourTint: {r: 1, g: 0.92156863, b: 0.44705883, a: 1}
+  enemy1Controller: {fileID: 9100000, guid: 8fa1041be811663439f1bfb5e971ae1f, type: 2}
+  enemy2Controller: {fileID: 9100000, guid: 141d35f528188034e92f586719526e6b, type: 2}
+  enemy3Controller: {fileID: 9100000, guid: 16f41b4b8b9839042a155441e0b41254, type: 2}
+  enemy4Controller: {fileID: 9100000, guid: 0f4aa6173611c9d48b1ab1f233f19107, type: 2}
   enemies: []
 --- !u!82 &818940044
 AudioSource:
