@@ -32,7 +32,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Loki
+  m_Name: Mobius
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: walkingRight
@@ -69,23 +69,23 @@ BlendTree:
   m_Name: Walking Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 7faac37598c51e24d8102883ff2bdcc0, type: 2}
+    m_Motion: {fileID: 7400000, guid: 02f7421f5cb2a4640a576c0440f2afdc, type: 2}
     m_Threshold: 0
-    m_Position: {x: 0, y: 1}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: walkingRight
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: c56e41a121b4b504f9ea6f2492f54da2, type: 2}
-    m_Threshold: 0.33333334
     m_Position: {x: 0, y: -1}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: walkingRight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 2e988d18507620e45a0f28b4840e3d84, type: 2}
+    m_Motion: {fileID: 7400000, guid: 5bb999702e58f554ba55aabdb5c755c4, type: 2}
+    m_Threshold: 0.33333334
+    m_Position: {x: 0, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: walkingRight
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: b6eb1f75f328d63429a80800532e58e0, type: 2}
     m_Threshold: 0.6666667
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
@@ -93,7 +93,7 @@ BlendTree:
     m_DirectBlendParameter: walkingRight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 79ee20d1e6135904a9c7d9d7ac4116aa, type: 2}
+    m_Motion: {fileID: 7400000, guid: 0e6c6794453e84842ab2f44a2d4bb2be, type: 2}
     m_Threshold: 1
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1

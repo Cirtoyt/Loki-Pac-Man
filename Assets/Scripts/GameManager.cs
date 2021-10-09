@@ -280,6 +280,11 @@ public class GameManager : MonoBehaviour
             loki.CompareNewInput(Direction.Right);
     }
 
+    private void OnExitGame()
+    {
+        Application.Quit();
+    }
+
     public Transform GetSpawnPoint()
     {
         return lokiSpawnPoint;
