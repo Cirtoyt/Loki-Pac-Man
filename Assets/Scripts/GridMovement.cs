@@ -113,7 +113,7 @@ public class GridMovement : MonoBehaviour
             List<DirectionInfo> possibleDirections = GetDirectionOptions(true);
             loki.ProcessDirectionChange(possibleDirections);
         }
-        if (TryGetComponent(out Enemy enemy))
+        else if (TryGetComponent(out Enemy enemy))
         {
             List<DirectionInfo> possibleDirections;
             if (isUTurn)

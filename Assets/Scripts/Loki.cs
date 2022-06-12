@@ -31,7 +31,7 @@ public class Loki : MonoBehaviour
 
     private void Update()
     {
-        if (gridMovement.GetCurrentDirectionInfo().vecVal.magnitude > 0.1)
+        if (gridMovement.GetCurrentDirectionInfo().vecVal.magnitude > 0.1f)
         {
             anim.SetFloat("walkingRight", gridMovement.GetCurrentDirectionInfo().vecVal.x);
             anim.SetFloat("walkingUp", gridMovement.GetCurrentDirectionInfo().vecVal.y);
@@ -105,6 +105,9 @@ public class Loki : MonoBehaviour
                 {
                     gridMovement.SetNextTile(possibleDirections[i]);
                     possibleDirectionFound = true;
+
+                    // Reset queued direction
+                    queuedDirection = Direction.None;
                     break;
                 }
             }
@@ -128,9 +131,6 @@ public class Loki : MonoBehaviour
                 gridMovement.SetNextTile(new DirectionInfo { enumVal = Direction.None, vecVal = Vector2.zero });
             }
         }
-
-        // Reset queued direction
-        queuedDirection = Direction.None;
     }
 
     public void Freeze()
