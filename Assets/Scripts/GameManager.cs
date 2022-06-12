@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         scoreValueText.text = "0";
-        hiScoreValueText.text = "0";
+        hiScoreValueText.text = PlayerPrefs.GetInt("HiScore").ToString();
         em = GetComponent<EnemyManager>();
         livesHUD = FindObjectOfType<LivesHUD>();
         loki = null;
@@ -216,6 +216,8 @@ public class GameManager : MonoBehaviour
             if (score > hiScore)
             {
                 hiScore = score;
+                PlayerPrefs.SetInt("HiScore", score);
+                PlayerPrefs.Save();
                 hiScoreValueText.text = hiScore.ToString();
             }
             score = 0;
