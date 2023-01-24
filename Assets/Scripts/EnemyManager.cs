@@ -22,6 +22,8 @@ public class EnemyManager : MonoBehaviour
     private bool enemyRoamLoop;
     private float enemySpawnLoopTimer;
     private float enemyRoamLoopTimer;
+    private Coroutine currentFrightenLoopCoroutine;
+    [SerializeField] private float frightenLoopDelayTimer;
     private int frightenedPointTally;
 
     void Start()
@@ -31,6 +33,8 @@ public class EnemyManager : MonoBehaviour
         enemyRoamLoop = false;
         enemySpawnLoopTimer = 0;
         enemyRoamLoopTimer = 0;
+        currentFrightenLoopCoroutine = null;
+        frightenLoopDelayTimer = 0;
         frightenedPointTally = 0;
     }
 
@@ -102,35 +106,35 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (Enemy enemy in enemies)
             enemy.SwitchToScatter();
-        Debug.Log("Switched to scatter mode");
+        //Debug.Log("Switched to scatter mode");
         yield return new WaitUntil(() => enemyRoamLoopTimer > 7);
         foreach (Enemy enemy in enemies)
             enemy.SwitchToChase();
-        Debug.Log("Switched to chase mode");
+        //Debug.Log("Switched to chase mode");
         yield return new WaitUntil(() => enemyRoamLoopTimer > 27);
         foreach (Enemy enemy in enemies)
             enemy.SwitchToScatter();
-        Debug.Log("Switched to scatter mode");
+        //Debug.Log("Switched to scatter mode");
         yield return new WaitUntil(() => enemyRoamLoopTimer > 34);
         foreach (Enemy enemy in enemies)
             enemy.SwitchToChase();
-        Debug.Log("Switched to chase mode");
+        //Debug.Log("Switched to chase mode");
         yield return new WaitUntil(() => enemyRoamLoopTimer > 54);
         foreach (Enemy enemy in enemies)
             enemy.SwitchToScatter();
-        Debug.Log("Switched to scatter mode");
+        //Debug.Log("Switched to scatter mode");
         yield return new WaitUntil(() => enemyRoamLoopTimer > 61);
         foreach (Enemy enemy in enemies)
             enemy.SwitchToChase();
-        Debug.Log("Switched to chase mode");
+        //Debug.Log("Switched to chase mode");
         yield return new WaitUntil(() => enemyRoamLoopTimer > 81);
         foreach (Enemy enemy in enemies)
             enemy.SwitchToScatter();
-        Debug.Log("Switched to scatter mode");
+        //.Log("Switched to scatter mode");
         yield return new WaitUntil(() => enemyRoamLoopTimer > 88);
         foreach (Enemy enemy in enemies)
             enemy.SwitchToChase();
-        Debug.Log("Switched to chase mode");
+        //Debug.Log("Switched to chase mode");
     }
 
     public void FrightenEnemies()
@@ -138,43 +142,101 @@ public class EnemyManager : MonoBehaviour
         ResetEnemyRoamLoop();
         foreach (Enemy enemy in enemies)
             enemy.Frighten();
-        StopCoroutine(FrightenLoop());
-        StartCoroutine(FrightenLoop());
+        if (currentFrightenLoopCoroutine != null) StopCoroutine(currentFrightenLoopCoroutine);
+        currentFrightenLoopCoroutine = StartCoroutine(FrightenLoop());
     }
 
     public void CaptureEnemy()
     {
-        frightenedPointTally += catchEnemyPointWorth;
-        gm.AddScore(catchEnemyPointWorth);
+        if (frightenedPointTally == 0)
+            frightenedPointTally = catchEnemyPointWorth;
+        else
+            frightenedPointTally *= 2;
+
+        gm.AddScore(frightenedPointTally);
     }
 
     private IEnumerator FrightenLoop()
     {
-        yield return new WaitForSeconds(7.1f);
+        frightenedPointTally = 0;
+        frightenLoopDelayTimer = 0;
+        while (frightenLoopDelayTimer < 7.1f)
+        {
+            while (gm.GetGameState() == GameManager.GameState.PauseScreen) yield return null;
+            frightenLoopDelayTimer += Time.deltaTime; yield return null;
+        }
         foreach (Enemy enemy in enemies)
+        {
             enemy.SetSpriteAsFrightened(false);
-        yield return new WaitForSeconds(0.4f);
+        }
+
+        frightenLoopDelayTimer = 0;
+        while (frightenLoopDelayTimer < 0.4f)
+        {
+            while (gm.GetGameState() == GameManager.GameState.PauseScreen) yield return null;
+            frightenLoopDelayTimer += Time.deltaTime; yield return null;
+        }
         foreach (Enemy enemy in enemies)
+        {
             enemy.SetSpriteAsFrightened(true);
-        yield return new WaitForSeconds(0.4f);
+        }
+
+        frightenLoopDelayTimer = 0;
+        while (frightenLoopDelayTimer < 0.4f)
+        {
+            while (gm.GetGameState() == GameManager.GameState.PauseScreen) yield return null;
+            frightenLoopDelayTimer += Time.deltaTime; yield return null;
+        }
         foreach (Enemy enemy in enemies)
+        {
             enemy.SetSpriteAsFrightened(false);
-        yield return new WaitForSeconds(0.4f);
+        }
+
+        frightenLoopDelayTimer = 0;
+        while (frightenLoopDelayTimer < 0.4f)
+        {
+            while (gm.GetGameState() == GameManager.GameState.PauseScreen) yield return null;
+            frightenLoopDelayTimer += Time.deltaTime; yield return null;
+        }
         foreach (Enemy enemy in enemies)
+        {
             enemy.SetSpriteAsFrightened(true);
-        yield return new WaitForSeconds(0.4f);
+        }
+
+        frightenLoopDelayTimer = 0;
+        while (frightenLoopDelayTimer < 0.4f)
+        {
+            while (gm.GetGameState() == GameManager.GameState.PauseScreen) yield return null;
+            frightenLoopDelayTimer += Time.deltaTime; yield return null;
+        }
         foreach (Enemy enemy in enemies)
+        {
             enemy.SetSpriteAsFrightened(false);
-        yield return new WaitForSeconds(0.4f);
+        }
+
+        frightenLoopDelayTimer = 0;
+        while (frightenLoopDelayTimer < 0.4f)
+        {
+            while (gm.GetGameState() == GameManager.GameState.PauseScreen) yield return null;
+            frightenLoopDelayTimer += Time.deltaTime; yield return null;
+        }
         foreach (Enemy enemy in enemies)
+        {
             enemy.SetSpriteAsFrightened(true);
-        yield return new WaitForSeconds(0.4f);
+        }
+
+        frightenLoopDelayTimer = 0;
+        while (frightenLoopDelayTimer < 0.4f)
+        {
+            while (gm.GetGameState() == GameManager.GameState.PauseScreen) yield return null;
+            frightenLoopDelayTimer += Time.deltaTime; yield return null;
+        }
         foreach (Enemy enemy in enemies)
         {
             enemy.EndFrighten();
         }
         enemyRoamLoop = true;
-        frightenedPointTally = 0;
+        currentFrightenLoopCoroutine = null;
     }
 
     public void ResetEnemyRoamLoop()

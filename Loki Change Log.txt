@@ -1,0 +1,31 @@
+Things to do:
+Add mouse mute button/input (maybe input to not clash with Unity eventsystem)
+
+Player speeds up from completing levels & when energized
+Player slows down when collecting pellets
+Enemies speed up from completing levels
+Enemies slow down when going through tunnels
+(Check speeds on website table)
+
+Visualise catch enemy points 200, 400, 800, 1600 etc over enemy on catch
+
+Every 10,000 points, gain an extra life if there is space (original was only 1 extra life at 10,00 only, not repeating, and allowing having 4 lives total if you didn't lose a life before hand, so will have to decide how to handle endless lives (maybe next at 30,000? and then repeating every 20,000?) and max totaly of lives (3 or 4?))
+
+Add cherries and other methods of getting back lives or getting bonus score! (Check points on website table)
+
+Increase pitch to 1.2 and 1.4 in last <certain number> of pellets and at then half that amount
+
+Done things:
+v1.3:
+*Increased base player & enemies movement speed for more lively gameplay
+*Fixed ghosts from entering a bugged state where they have no hitbox and are stuck at half speed if a Tesseract is picked up whilst the enemy is retreating to the TVA.
+*Fixed bug where collecting another Tesseract whilst enemies were frightened didn't reset the frightened state timer.
+*Catching frightened enemies now doubles the points awarded for each enemy caught after the first caught from the same Tesseract. Collecting a new Tesseract resets this mutliplier back to 1x (200 points awarded for next enemy caught).
+v1.2:
++Added new an improved movement control with a 2-layered input queueing system.
++Added UI to display the current level.
+*Fixed loki from losing a life everytime you complete a round.
+*Fixed pausing game bugging whilst transitioning between death or rounds.
+*Fixed high score saving to actually load in the hi-score value into memory, not just the text UI at the beginning of the game.
+*Brightened the colour of frightened enemies to make them clearer to see.
+*Fixed frightened enemies loop to now properly pause whilst the game is paused

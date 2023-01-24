@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text ReadyText;
     [SerializeField] private TextBlinker pauseGameText;
     [SerializeField] private Text scoreValueText;
+    [SerializeField] private Text levelValueText;
     [SerializeField] private Text hiScoreValueText;
     [SerializeField] private GameObject tesseractPortalPrefab;
     [SerializeField] private GameObject lokiPrefab;
@@ -35,7 +36,8 @@ public class GameManager : MonoBehaviour
     private GameState gameState;
     private int lives;
     private int score;
-    private int hiScore = 0;
+    private int level;
+    private int hiScore;
     private GameObject instantiatedPellets;
     private bool TVAPortalHasClosed = false;
     private Transform wallTilemap;
@@ -46,7 +48,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         scoreValueText.text = "0";
-        hiScoreValueText.text = PlayerPrefs.GetInt("HiScore").ToString();
+        levelValueText.text = "1";
+        hiScore = PlayerPrefs.GetInt("HiScore");
+        hiScoreValueText.text = hiScore.ToString();
         em = GetComponent<EnemyManager>();
         livesHUD = FindObjectOfType<LivesHUD>();
         loki = null;
@@ -68,7 +72,8 @@ public class GameManager : MonoBehaviour
         switch (gameState)
         {
             case GameState.BeginScreen:
-                StartCoroutine(BeginGame());
+                gameState = GameState.SettingUpGame;
+                StartCoroutine(BeginRound(true));
                 break;
             case GameState.InGame:
                 PauseGame();
@@ -79,9 +84,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator BeginGame()
+    private IEnumerator BeginRound(bool loseLifeOnSpawn)
     {
-        gameState = GameState.SettingUpGame;
         beginGameText.DisableText();
         ReadyText.enabled = true;
         RandomiseLogo();
@@ -97,7 +101,8 @@ public class GameManager : MonoBehaviour
         RandomiseLogo();
         yield return new WaitForSeconds(0.5f);
         // Begin Loki spawn animation (takes 1 second)
-        Instantiate(tesseractPortalPrefab, lokiSpawnPoint);
+        TesseractPortal tesseractPortal = Instantiate(tesseractPortalPrefab, lokiSpawnPoint).GetComponent<TesseractPortal>();
+        tesseractPortal.SetShouldRemoveLife(loseLifeOnSpawn);
         yield return new WaitUntil(() => loki);
         em.SpawnEnemies();
         yield return new WaitForSeconds(1);
@@ -177,25 +182,65 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WinRoundCoroutine()
     {
-        FreezeGameAndInputs();
-        em.StopAllLoops();
-        yield return new WaitForSeconds(2);
-        em.DestroyAllEnemies();
-        Destroy(loki.gameObject);
-        loki = null;
-        yield return new WaitForSeconds(1);
-        Destroy(instantiatedPellets);
-        instantiatedPellets = Instantiate(pelletsPrefab);
-        StartCoroutine(BeginGame());
+        gameState = GameState.SettingUpGame;
+        // If somehow someone has reached and completed level 99
+        if (level >= 99)
+        {
+            FreezeGameAndInputs();
+            em.StopAllLoops();
+            yield return new WaitForSeconds(2);
+            em.DestroyAllEnemies();
+            Destroy(loki.gameObject);
+            RemoveLokiRef();
+
+            yield return new WaitForSeconds(2);
+            if (score > hiScore)
+            {
+                hiScore = score;
+                PlayerPrefs.SetInt("HiScore", score);
+                PlayerPrefs.Save();
+                hiScoreValueText.text = hiScore.ToString();
+            }
+
+            // Reset score, lives, pellets & return to begin screen
+            score = 0;
+            scoreValueText.text = score.ToString();
+            level = 1;
+            levelValueText.text = level.ToString();
+            lives = defaultLives;
+            livesHUD.ResetLives();
+            Destroy(instantiatedPellets);
+            instantiatedPellets = Instantiate(pelletsPrefab);
+            // remove any bonus items
+            gameState = GameState.BeginScreen;
+            beginGameText.EnableText();
+        }
+        // Load a new round
+        else
+        {
+            FreezeGameAndInputs();
+            em.StopAllLoops();
+            yield return new WaitForSeconds(2);
+            em.DestroyAllEnemies();
+            Destroy(loki.gameObject);
+            loki = null;
+            yield return new WaitForSeconds(1);
+            Destroy(instantiatedPellets);
+            instantiatedPellets = Instantiate(pelletsPrefab);
+            level++;
+            levelValueText.text = level.ToString();
+            StartCoroutine(BeginRound(false));
+        }
     }
 
-    public void LoseRound(Enemy catcher)
+    public void LoseLife(Enemy catcher)
     {
-        StartCoroutine(LoseRoundCoroutine(catcher));
+        StartCoroutine(LoseLifeCoroutine(catcher));
     }
 
-    private IEnumerator LoseRoundCoroutine(Enemy catcher)
+    private IEnumerator LoseLifeCoroutine(Enemy catcher)
     {
+        gameState = GameState.SettingUpGame;
         FreezeGameAndInputs();
         em.StopAllLoops();
         em.DestroyEnemiesBarOne(catcher);
@@ -207,7 +252,7 @@ public class GameManager : MonoBehaviour
         if (lives > 0)
         {
             // Start next round
-            StartCoroutine(BeginGame());
+            StartCoroutine(BeginRound(true));
         }
         else
         {
@@ -222,6 +267,8 @@ public class GameManager : MonoBehaviour
             }
             score = 0;
             scoreValueText.text = score.ToString();
+            level = 1;
+            levelValueText.text = level.ToString();
             lives = defaultLives;
             livesHUD.ResetLives();
             Destroy(instantiatedPellets);
@@ -261,25 +308,25 @@ public class GameManager : MonoBehaviour
     private void OnMoveUp()
     {
         if (loki)
-            loki.CompareNewInput(Direction.Up);
+            loki.RegisterInput(Direction.Up);
     }
 
     private void OnMoveDown()
     {
         if (loki)
-            loki.CompareNewInput(Direction.Down);
+            loki.RegisterInput(Direction.Down);
     }
 
     private void OnMoveLeft()
     {
         if (loki)
-            loki.CompareNewInput(Direction.Left);
+            loki.RegisterInput(Direction.Left);
     }
 
     private void OnMoveRight()
     {
         if (loki)
-            loki.CompareNewInput(Direction.Right);
+            loki.RegisterInput(Direction.Right);
     }
 
     private void OnExitGame()

@@ -14,8 +14,10 @@ public class Loki : MonoBehaviour
     private EnemyManager em;
     private GridMovement gridMovement;
     private Animator anim;
-    private Direction queuedDirection;
     private Coroutine currentWakaWakaCoroutine;
+    private int inputQueueLength = 2;
+    [Header("Debug")]
+    private List<Direction> queuedDirections = new List<Direction>();
 
     void Start()
     {
@@ -25,7 +27,6 @@ public class Loki : MonoBehaviour
         anim = GetComponent<Animator>();
         DirectionInfo enterMazeDirection = new DirectionInfo { enumVal = Direction.Left, vecVal = Vector2.left };
         gridMovement.SetSpawnPosition(enterMazeDirection, transform.position, true);
-        queuedDirection = Direction.None;
         wakawakaSource.volume = 0;
     }
 
@@ -38,43 +39,55 @@ public class Loki : MonoBehaviour
         }
     }
 
-    public void CompareNewInput(Direction inputDirection)
+    public void RegisterInput(Direction inputDirection)
     {
         // Queue new input direction or instantly enact it (when reversing)
         switch (inputDirection)
         {
             case Direction.Up:
                 {
-                    if (gridMovement.GetCurrentDirectionInfo().enumVal == Direction.Down)
-                        gridMovement.InstantReverseDirection();
-                    else
-                        queuedDirection = inputDirection;
+                    RegisterInputPerDirection(inputDirection, Direction.Down);
                 }
                 break;
             case Direction.Down:
                 {
-                    if (gridMovement.GetCurrentDirectionInfo().enumVal == Direction.Up)
-                        gridMovement.InstantReverseDirection();
-                    else
-                        queuedDirection = inputDirection;
+                    RegisterInputPerDirection(inputDirection, Direction.Up);
                 }
                 break;
             case Direction.Left:
                 {
-                    if (gridMovement.GetCurrentDirectionInfo().enumVal == Direction.Right)
-                        gridMovement.InstantReverseDirection();
-                    else
-                        queuedDirection = inputDirection;
+                    RegisterInputPerDirection(inputDirection, Direction.Right);
                 }
                 break;
             case Direction.Right:
                 {
-                    if (gridMovement.GetCurrentDirectionInfo().enumVal == Direction.Left)
-                        gridMovement.InstantReverseDirection();
-                    else
-                        queuedDirection = inputDirection;
+                    RegisterInputPerDirection(inputDirection, Direction.Left);
                 }
                 break;
+        }
+    }
+
+    private void RegisterInputPerDirection(Direction inputDirection, Direction oppositeDirection)
+    {
+        if (gridMovement.GetCurrentDirectionInfo().enumVal == oppositeDirection)
+        {
+            gridMovement.InstantReverseDirection();
+            queuedDirections.Clear();
+        }
+        else
+        {
+            if (queuedDirections.Count == inputQueueLength)
+            {
+                queuedDirections.RemoveAt(0);
+            }
+            queuedDirections.Add(inputDirection);
+
+            //string debugString = "Queued Directions now: ";
+            //foreach (var direction in queuedDirections)
+            //{
+            //    debugString += direction.ToString() + ", ";
+            //}
+            //Debug.Log(debugString);
         }
     }
 
@@ -83,7 +96,7 @@ public class Loki : MonoBehaviour
         bool possibleDirectionFound = false;
 
         // If nothing is queued,
-        if (queuedDirection == Direction.None)
+        if (queuedDirections.Count == 0)
         {
             // Set new direction as the current as long as it's possible
             for (int i = 0; i < possibleDirections.Count; i++)
@@ -96,25 +109,52 @@ public class Loki : MonoBehaviour
                 }
             }
         }
-        else
+        else // Otherwise, 
         {
-            // Otherwise, Set new direction as queued direction if it's possible
-            for (int i = 0; i < possibleDirections.Count; i++)
+            // Set new direction as queued direction if it's possible
+            bool firstQueuedDirIsPossible = false;
+            bool secondQueuedDirIsPossible = false;
+            DirectionInfo firstQueuedDirPossibleDirInfo = new DirectionInfo();
+            DirectionInfo secondQueuedDirPossibleDirInfo = new DirectionInfo();
+            for (int q = 0; q < queuedDirections.Count; q++)
             {
-                if (queuedDirection == possibleDirections[i].enumVal)
+                for (int p = 0; p < possibleDirections.Count; p++)
                 {
-                    gridMovement.SetNextTile(possibleDirections[i]);
-                    possibleDirectionFound = true;
-
-                    // Reset queued direction
-                    queuedDirection = Direction.None;
-                    break;
+                    if (queuedDirections[q] == possibleDirections[p].enumVal)
+                    {
+                        if (q == 0)
+                        {
+                            firstQueuedDirPossibleDirInfo = possibleDirections[p];
+                            firstQueuedDirIsPossible = true;
+                        }
+                        if (q == 1)
+                        {
+                            secondQueuedDirPossibleDirInfo = possibleDirections[p];
+                            secondQueuedDirIsPossible = true;
+                        }
+                    }
                 }
             }
+
+            // If first queued direction is possible as well as the second, or only the second is possible, use the second input and clear the queue
+            if ((firstQueuedDirIsPossible && secondQueuedDirIsPossible) || (!firstQueuedDirIsPossible && secondQueuedDirIsPossible))
+            {
+                queuedDirections.Clear();
+                gridMovement.SetNextTile(secondQueuedDirPossibleDirInfo);
+                possibleDirectionFound = true;
+            }
+            // Else if only first queued direction is possible (or there is only a first input), remove first input from the list and let the second queued direction become the first (if there is a second)
+            else if (firstQueuedDirIsPossible && !secondQueuedDirIsPossible)
+            {
+                queuedDirections.RemoveAt(0);
+                gridMovement.SetNextTile(firstQueuedDirPossibleDirInfo);
+                possibleDirectionFound = true;
+            }
         }
+
+        // If no possible direction is found, try to keep going straight
         if (!possibleDirectionFound)
         {
-            // If no possible direction is found, try to keep going straight
             bool couldGoStraight = false;
             for (int i = 0; i < possibleDirections.Count; i++)
             {

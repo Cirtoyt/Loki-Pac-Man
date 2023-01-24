@@ -32,15 +32,19 @@ public class Enemy : MonoBehaviour
     }
 
     public Personality personality;
+    [SerializeField] private Color frightenedColour;
+    [SerializeField] private Color retreatingColour;
 
     [HideInInspector] public bool canMoveInTVA = true;
-    
+
+    [Header("Debug")]
+    [SerializeField] private MovementState movementState;
+
     private GameManager gm;
     private EnemyManager em;
     private GridMovement gridMovement;
     private Animator anim;
     private Tilemap TVAGateTilemap;
-    [SerializeField] private MovementState movementState;
     private HomeLocation homeLocation;
     private DirectionInfo inTVADirection;
     private bool canCapturePlayer;
@@ -107,6 +111,8 @@ public class Enemy : MonoBehaviour
                             {
                                 movementState = MovementState.Frightened;
                                 gridMovement.HalfMovementSpeedMultiplier();
+                                GetComponent<SpriteRenderer>().color = frightenedColour;
+                                canCapturePlayer = false;
                                 frightenIsQueued = false;
                             }
                             else
@@ -168,14 +174,14 @@ public class Enemy : MonoBehaviour
         {
             case MovementState.Chasing:
                 {
+                    // personality depicts target tile
                     GetChaseDirection(possibleDirections);
-                    // personality depictants target tile
                 }
                 break;
             case MovementState.Scatter:
                 {
-                    GetScatterDirection(possibleDirections);
                     // direction that is closest to their own corner
+                    GetScatterDirection(possibleDirections);
                 }
                 break;
             case MovementState.Frightened:
@@ -354,15 +360,15 @@ public class Enemy : MonoBehaviour
         {
             gridMovement.InstantReverseDirection();
             movementState = MovementState.Frightened;
+            gridMovement.HalfMovementSpeedMultiplier();
+            GetComponent<SpriteRenderer>().color = frightenedColour;
+            canCapturePlayer = false;
         }
-        else
+        else if (movementState == MovementState.InTVA || movementState == MovementState.LeavingTVA)
         {
+            GetComponent<SpriteRenderer>().color = frightenedColour;
             frightenIsQueued = true;
         }
-
-        gridMovement.HalfMovementSpeedMultiplier();
-        GetComponent<SpriteRenderer>().color = Color.blue;
-        canCapturePlayer = false;
     }
 
     public void SetSpriteAsFrightened(bool isNowFrightened)
@@ -370,7 +376,7 @@ public class Enemy : MonoBehaviour
         //anim.SetBool("Frightened", isNowFrightened);
         if (isNowFrightened && (movementState == MovementState.Frightened || frightenIsQueued))
         {
-            GetComponent<SpriteRenderer>().color = Color.blue;
+            GetComponent<SpriteRenderer>().color = frightenedColour;
         }
         else if (!isNowFrightened && (movementState == MovementState.Frightened || frightenIsQueued))
         {
@@ -382,7 +388,9 @@ public class Enemy : MonoBehaviour
     {
         movementState = MovementState.RetreatingToTVA;
         gridMovement.DoubleMovementSpeedMultiplier();
-        GetComponent<SpriteRenderer>().color = Color.cyan;
+        GetComponent<SpriteRenderer>().color = retreatingColour;
+        // Shouldn't need this, but just in-case of weird bug where ghosts are able to catch you whilst retreating
+        canCapturePlayer = false;
     }
 
     public void EndFrighten()
@@ -390,9 +398,9 @@ public class Enemy : MonoBehaviour
         if (movementState == MovementState.Frightened)
         {
             movementState = currentWanderState;
-            gridMovement.ResetMovementSpeedMultiplier();
         }
 
+        gridMovement.ResetMovementSpeedMultiplier();
         frightenIsQueued = false;
         canCapturePlayer = true;
         GetComponent<SpriteRenderer>().color = baseSpriteColour;
@@ -407,7 +415,7 @@ public class Enemy : MonoBehaviour
     {
         if (collision.tag == "Player" && canCapturePlayer)
         {
-            gm.LoseRound(this);
+            gm.LoseLife(this);
         }
         else if (movementState == MovementState.InTVA && collision.tag == "TVA")
         {

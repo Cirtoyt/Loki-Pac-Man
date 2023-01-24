@@ -119,6 +119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personality: 0
+  frightenedColour: {r: 0, g: 0.45490196, b: 1, a: 1}
+  retreatingColour: {r: 0, g: 1, b: 1, a: 1}
   canMoveInTVA: 1
   movementState: 0
 --- !u!114 &5147419014239041174
@@ -133,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf8cea41ad714104b85d2ab3cafdff5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5.3
+  movementSpeed: 6.7
   movementSpeedMultiplier: 1
   canMove: 0
 --- !u!58 &6550339259157232724
