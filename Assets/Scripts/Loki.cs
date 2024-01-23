@@ -9,22 +9,42 @@ public class Loki : MonoBehaviour
     [SerializeField] private AudioSource deathSource;
     [SerializeField] private AudioSource enemyCaptureSource;
     [SerializeField] private AudioSource pickupTesseractSource;
+    [SerializeField] private float level1SpeedMultiplier = 0.8f;
+    [SerializeField] private float level2To4SpeedMultiplier = 0.9f;
+    [SerializeField] private float level5To20SpeedMultiplier = 1f;
+    [SerializeField] private float level21PlusSpeedMultiplier = 0.9f;
+    [SerializeField] private float level1FrightSpeedMultiplierOffset = 0.1f;
+    [SerializeField] private float level2To4FrightSpeedMultiplierOffset = 0.05f;
 
     private GameManager gm;
     private EnemyManager em;
     private GridMovement gridMovement;
     private Animator anim;
+    private MuteSoundsToggle muteSoundsToggle;
     private Coroutine currentWakaWakaCoroutine;
     private int inputQueueLength = 2;
+    private float frightenedDuration = 9.5f;
+    private float frightenedTimer = 0;
+    private bool frightened = false;
     [Header("Debug")]
     private List<Direction> queuedDirections = new List<Direction>();
 
-    void Start()
+    private void Awake()
     {
         gm = FindObjectOfType<GameManager>();
         em = FindObjectOfType<EnemyManager>();
         gridMovement = GetComponent<GridMovement>();
         anim = GetComponent<Animator>();
+        muteSoundsToggle = FindObjectOfType<MuteSoundsToggle>();
+
+        muteSoundsToggle.AddAudioSource(wakawakaSource);
+        muteSoundsToggle.AddAudioSource(deathSource);
+        muteSoundsToggle.AddAudioSource(enemyCaptureSource);
+        muteSoundsToggle.AddAudioSource(pickupTesseractSource);
+    }
+
+    void Start()
+    {
         DirectionInfo enterMazeDirection = new DirectionInfo { enumVal = Direction.Left, vecVal = Vector2.left };
         gridMovement.SetSpawnPosition(enterMazeDirection, transform.position, true);
         wakawakaSource.volume = 0;
@@ -36,6 +56,18 @@ public class Loki : MonoBehaviour
         {
             anim.SetFloat("walkingRight", gridMovement.GetCurrentDirectionInfo().vecVal.x);
             anim.SetFloat("walkingUp", gridMovement.GetCurrentDirectionInfo().vecVal.y);
+        }
+
+        if (frightened)
+        {
+            if (gm.GetGameState() == GameManager.GameState.PauseScreen) return;
+
+            frightenedTimer += Time.deltaTime;
+            if (frightenedTimer >= frightenedDuration)
+            {
+                frightened = false;
+                UpdateLevelSpeedMultiplier(gm.level);
+            }
         }
     }
 
@@ -223,10 +255,47 @@ public class Loki : MonoBehaviour
     private IEnumerator CaptureEnemy(Enemy enemy)
     {
         enemyCaptureSource.Play();
+        em.RecordCaptureEnemyPoints(enemy);
         gm.FreezeGameButNoPauseText();
         yield return new WaitForSeconds(0.6f);
         gm.UnfreezeGameButNoPauseText();
         enemy.RetreatToTVA();
-        em.CaptureEnemy();
+    }
+
+    public void UpdateLevelSpeedMultiplier(int newLevel)
+    {
+        if (newLevel == 1)
+        {
+            gridMovement.movementSpeedLevelMultiplier = level1SpeedMultiplier;
+            if (frightened) gridMovement.movementSpeedLevelMultiplier += level1FrightSpeedMultiplierOffset;
+        }
+        else if (newLevel >= 2 && newLevel <= 4)
+        {
+            gridMovement.movementSpeedLevelMultiplier = level2To4SpeedMultiplier;
+            if (frightened) gridMovement.movementSpeedLevelMultiplier += level2To4FrightSpeedMultiplierOffset;
+        }
+        else if (newLevel >= 5 && newLevel <= 20)
+        {
+            gridMovement.movementSpeedLevelMultiplier = level5To20SpeedMultiplier;
+        }
+        else if (newLevel >= 21)
+        {
+            gridMovement.movementSpeedLevelMultiplier = level21PlusSpeedMultiplier;
+        }
+    }
+
+    public void Frighten()
+    {
+        frightened = true;
+        frightenedTimer = 0;
+        UpdateLevelSpeedMultiplier(gm.level);
+    }
+
+    private void OnDestroy()
+    {
+        muteSoundsToggle.RemoveAudioSource(wakawakaSource);
+        muteSoundsToggle.RemoveAudioSource(deathSource);
+        muteSoundsToggle.RemoveAudioSource(enemyCaptureSource);
+        muteSoundsToggle.RemoveAudioSource(pickupTesseractSource);
     }
 }

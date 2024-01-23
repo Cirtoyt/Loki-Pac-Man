@@ -16,7 +16,9 @@ public class TesseractPortal : MonoBehaviour
     private void SpawnLoki()
     {
         loki = Instantiate(gm.GetLokiPrefab(), gm.GetSpawnPoint().position, gm.GetSpawnPoint().rotation);
-        
+        loki.name = "Loki";
+        loki.GetComponent<Loki>().UpdateLevelSpeedMultiplier(gm.level);
+
         if (shouldRemoveLife)
         {
             gm.RemoveLife();

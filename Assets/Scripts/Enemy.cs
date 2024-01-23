@@ -34,6 +34,10 @@ public class Enemy : MonoBehaviour
     public Personality personality;
     [SerializeField] private Color frightenedColour;
     [SerializeField] private Color retreatingColour;
+    [SerializeField] private float level1SpeedMultiplier = 0.75f;
+    [SerializeField] private float level2To4SpeedMultiplier = 0.85f;
+    [SerializeField] private float level5To20SpeedMultiplier = 0.95f;
+    [SerializeField] private float level21PlusSpeedMultiplier = 0.95f;
 
     [HideInInspector] public bool canMoveInTVA = true;
 
@@ -53,12 +57,16 @@ public class Enemy : MonoBehaviour
     private MovementState currentWanderState = MovementState.Scatter;
     private Color baseSpriteColour;
 
-    void Start()
+    private void Awake()
     {
         gm = FindObjectOfType<GameManager>();
         em = FindObjectOfType<EnemyManager>();
         gridMovement = GetComponent<GridMovement>();
         anim = GetComponent<Animator>();
+    }
+
+    void Start()
+    {
         TVAGateTilemap = GameObject.FindGameObjectWithTag("TVA Gate").GetComponent<Tilemap>();
         canCapturePlayer = true;
         baseSpriteColour = GetComponent<SpriteRenderer>().color;
@@ -395,6 +403,9 @@ public class Enemy : MonoBehaviour
 
     public void EndFrighten()
     {
+        if (movementState == MovementState.RetreatingToTVA)
+            return;
+
         if (movementState == MovementState.Frightened)
         {
             movementState = currentWanderState;
@@ -427,6 +438,26 @@ public class Enemy : MonoBehaviour
             {
                 inTVADirection = new DirectionInfo { enumVal = Direction.Up, vecVal = Vector2.up };
             }
+        }
+    }
+
+    public void UpdateLevelSpeedMultiplier(int newLevel)
+    {
+        if (newLevel == 1)
+        {
+            gridMovement.movementSpeedLevelMultiplier = level1SpeedMultiplier;
+        }
+        else if (newLevel >= 2 && newLevel <= 4)
+        {
+            gridMovement.movementSpeedLevelMultiplier = level2To4SpeedMultiplier;
+        }
+        else if (newLevel >= 5 && newLevel <= 20)
+        {
+            gridMovement.movementSpeedLevelMultiplier = level5To20SpeedMultiplier;
+        }
+        else if (newLevel >= 21)
+        {
+            gridMovement.movementSpeedLevelMultiplier = level21PlusSpeedMultiplier;
         }
     }
 }

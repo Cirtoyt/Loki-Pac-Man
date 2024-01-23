@@ -7,6 +7,7 @@ public class GridMovement : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
     public float movementSpeedMultiplier;
+    public float movementSpeedLevelMultiplier = 1;
 
     [HideInInspector] public bool canMove;
 
@@ -58,11 +59,11 @@ public class GridMovement : MonoBehaviour
             // Increase between tile transition percentage
             if (mustResetHalfStep)
             {
-                tileTransitionPerc += Time.deltaTime * movementSpeed * movementSpeedMultiplier * 2;
+                tileTransitionPerc += Time.deltaTime * movementSpeed * movementSpeedMultiplier * movementSpeedLevelMultiplier * 2;
             }
             else
             {
-                tileTransitionPerc += Time.deltaTime * movementSpeed * movementSpeedMultiplier;
+                tileTransitionPerc += Time.deltaTime * movementSpeed * movementSpeedMultiplier * movementSpeedLevelMultiplier;
             }
 
             // If still transitioning,

@@ -60,6 +60,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "UI Click",
+                    "type": "Button",
+                    "id": "b6fc0032-b3ea-4c1c-827c-ccdff7d862b8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -192,6 +200,17 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "Exit Game",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "695cb8c6-6607-472f-95de-ecae834fbfcd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "UI Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

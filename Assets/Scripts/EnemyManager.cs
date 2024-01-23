@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemyManager : MonoBehaviour
 {
     
     [SerializeField] GameObject enemyPrefab;
+    [SerializeField] TextMeshPro capturedEnemyPointTextPrefab;
     public List<Transform> enemySpawnPoints;
     [SerializeField] private float inTVASpeed;
     public List<Transform> enemyCornerTargets;
@@ -23,7 +25,7 @@ public class EnemyManager : MonoBehaviour
     private float enemySpawnLoopTimer;
     private float enemyRoamLoopTimer;
     private Coroutine currentFrightenLoopCoroutine;
-    [SerializeField] private float frightenLoopDelayTimer;
+    private float frightenLoopDelayTimer;
     private int frightenedPointTally;
 
     void Start()
@@ -59,25 +61,31 @@ public class EnemyManager : MonoBehaviour
             enemies.Add(enemy.GetComponent<Enemy>());
         }
 
+        enemies[0].gameObject.name = "Shadow";
         enemies[0].personality = Enemy.Personality.Shadow;
         enemies[0].GetComponent<Animator>().runtimeAnimatorController = enemy1Controller;
         enemies[0].transform.position = enemySpawnPoints[0].position;
         enemies[0].SetHomeLocation(Enemy.HomeLocation.Centre);
 
+        enemies[1].gameObject.name = "Speedy";
         enemies[1].personality = Enemy.Personality.Speedy;
         enemies[1].GetComponent<Animator>().runtimeAnimatorController = enemy2Controller;
         enemies[1].transform.position = enemySpawnPoints[1].position;
         enemies[1].SetHomeLocation(Enemy.HomeLocation.Right);
 
+        enemies[2].gameObject.name = "Bashful";
         enemies[2].personality = Enemy.Personality.Bashful;
         enemies[2].GetComponent<Animator>().runtimeAnimatorController = enemy3Controller;
         enemies[2].transform.position = enemySpawnPoints[2].position;
         enemies[2].SetHomeLocation(Enemy.HomeLocation.Centre);
 
+        enemies[3].gameObject.name = "Pokey";
         enemies[3].personality = Enemy.Personality.Pokey;
         enemies[3].GetComponent<Animator>().runtimeAnimatorController = enemy4Controller;
         enemies[3].transform.position = enemySpawnPoints[3].position;
         enemies[3].SetHomeLocation(Enemy.HomeLocation.Left);
+
+        UpdateAllEnemyLevelSpeedMultipliers(gm.level);
     }
 
     public void BeginRound()
@@ -146,13 +154,14 @@ public class EnemyManager : MonoBehaviour
         currentFrightenLoopCoroutine = StartCoroutine(FrightenLoop());
     }
 
-    public void CaptureEnemy()
+    public void RecordCaptureEnemyPoints(Enemy enemy)
     {
         if (frightenedPointTally == 0)
             frightenedPointTally = catchEnemyPointWorth;
         else
             frightenedPointTally *= 2;
 
+        Instantiate(capturedEnemyPointTextPrefab, enemy.transform.position, Quaternion.identity).text = frightenedPointTally.ToString();
         gm.AddScore(frightenedPointTally);
     }
 
@@ -321,5 +330,13 @@ public class EnemyManager : MonoBehaviour
     {
         enemies.Remove(enemy);
         Destroy(enemy.gameObject);
+    }
+
+    public void UpdateAllEnemyLevelSpeedMultipliers(int newLevel)
+    {
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.UpdateLevelSpeedMultiplier(newLevel);
+        }
     }
 }

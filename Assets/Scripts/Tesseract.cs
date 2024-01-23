@@ -26,6 +26,7 @@ public class Tesseract : MonoBehaviour
             gm.AddScore(pm.GetTesseractPointWorth());
             pm.RemovePellet();
             em.FrightenEnemies();
+            gm.FrightenLoki();
             Destroy(gameObject);
         }
     }

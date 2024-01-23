@@ -33,6 +33,22 @@ public class LivesHUD : MonoBehaviour
         }
     }
 
+    public void AddLife()
+    {
+        livesCounter++;
+        for (int i = 0; i < lives.Count; i++)
+        {
+            if (i < livesCounter)
+            {
+                lives[i].enabled = true;
+            }
+            else
+            {
+                lives[i].enabled = false;
+            }
+        }
+    }
+
     public void ResetLives()
     {
         livesCounter = lives.Count;

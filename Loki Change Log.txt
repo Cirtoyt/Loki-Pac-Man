@@ -1,19 +1,12 @@
 Things to do:
-Add mouse mute button/input (maybe input to not clash with Unity eventsystem)
-
-Player speeds up from completing levels & when energized
 Player slows down when collecting pellets
-Enemies speed up from completing levels
-Enemies slow down when going through tunnels
-(Check speeds on website table)
-
-Visualise catch enemy points 200, 400, 800, 1600 etc over enemy on catch
-
-Every 10,000 points, gain an extra life if there is space (original was only 1 extra life at 10,00 only, not repeating, and allowing having 4 lives total if you didn't lose a life before hand, so will have to decide how to handle endless lives (maybe next at 30,000? and then repeating every 20,000?) and max totaly of lives (3 or 4?))
+Enemies slow down when going through tunnels (half speed like when frightened)
 
 Add cherries and other methods of getting back lives or getting bonus score! (Check points on website table)
 
-Increase pitch to 1.2 and 1.4 in last <certain number> of pellets and at then half that amount
+Add cornering where you can go around corners a few "pixels" before you reach the corner tile to perform diagonal movement that's essentially 2x speed
+
+Increase music pitch to 1.2 and 1.4 in last <certain number> of pellets and then at half that amount, pitch even higher
 
 Done things:
 v1.3:

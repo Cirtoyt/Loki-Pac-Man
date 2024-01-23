@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
     private GameState gameState;
     private int lives;
     private int score;
-    private int level;
+    private int lifeBonusScore;
+    public int level;
     private int hiScore;
     private GameObject instantiatedPellets;
     private bool TVAPortalHasClosed = false;
@@ -47,8 +48,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        level = 1;
+        levelValueText.text = level.ToString();
+        score = 0;
         scoreValueText.text = "0";
-        levelValueText.text = "1";
         hiScore = PlayerPrefs.GetInt("HiScore");
         hiScoreValueText.text = hiScore.ToString();
         em = GetComponent<EnemyManager>();
@@ -56,6 +59,7 @@ public class GameManager : MonoBehaviour
         loki = null;
         gameState = GameState.BeginScreen;
         lives = defaultLives;
+        lifeBonusScore = 0;
         instantiatedPellets = Instantiate(pelletsPrefab);
 
         beginGameText.EnableText();
@@ -119,9 +123,24 @@ public class GameManager : MonoBehaviour
         livesHUD.RemoveLife();
     }
 
+    public void TryAddLife()
+    {
+        if (lives + 1 > defaultLives)
+            return;
+
+        lives++;
+        livesHUD.AddLife();
+    }
+
     public void AddLokiRef(Loki _loki)
     {
         loki = _loki;
+        loki.UpdateLevelSpeedMultiplier(level);
+    }
+
+    public void FrightenLoki()
+    {
+        loki.Frighten();
     }
 
     private void RandomiseLogo()
@@ -209,6 +228,7 @@ public class GameManager : MonoBehaviour
             levelValueText.text = level.ToString();
             lives = defaultLives;
             livesHUD.ResetLives();
+            lifeBonusScore = 0;
             Destroy(instantiatedPellets);
             instantiatedPellets = Instantiate(pelletsPrefab);
             // remove any bonus items
@@ -271,6 +291,7 @@ public class GameManager : MonoBehaviour
             levelValueText.text = level.ToString();
             lives = defaultLives;
             livesHUD.ResetLives();
+            lifeBonusScore = 0;
             Destroy(instantiatedPellets);
             instantiatedPellets = Instantiate(pelletsPrefab);
             // remove any bonus items
@@ -298,6 +319,14 @@ public class GameManager : MonoBehaviour
     {
         score += points;
         scoreValueText.text = score.ToString();
+
+        // Check to reward player with extra life after each 10,000 points earned
+        lifeBonusScore += points;
+        if (lifeBonusScore >= 10_000)
+        {
+            TryAddLife();
+            lifeBonusScore = 0;
+        }
     }
 
     private void OnMouseSelect()
