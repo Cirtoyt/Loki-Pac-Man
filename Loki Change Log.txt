@@ -1,14 +1,24 @@
 Things to do:
-Player slows down when collecting pellets
+Player slows down when collecting pellets (a minor speed thing)
 Enemies slow down when going through tunnels (half speed like when frightened)
 
-Add cherries and other methods of getting back lives or getting bonus score! (Check points on website table)
+Make ghosts turn around when entering frightened mode and when switching between scatter/chase modes
+
+If you catch all 4 ghosts with 1 teseract, at each teseract, you get a plus 12,000 points! This can happen once every level
 
 Add cornering where you can go around corners a few "pixels" before you reach the corner tile to perform diagonal movement that's essentially 2x speed
 
 Increase music pitch to 1.2 and 1.4 in last <certain number> of pellets and then at half that amount, pitch even higher
+Increase music pitch to insane when in frighten mode
+Increase music pitch to insane more so + reversed whilst any ghost is retreating to the TVA
 
 Done things:
+v1.4:
++Added variable speed multipliers to the player and ghosts depending if on level 1, 2 to 4, 5 to 20, or 21 onwards. Also, now the player gets quicker when getting the tesseract for the first 4 levels too.
++Added a mute sound button that has it's state saved to PlayerPrefs also!
++Added visualisation for the points scored from capturing ghosts that do a little rise animation too!
++Added the ability to gain back a life lost for every 10,000 points you score.
+*Fixed a bug where if ghosts were in the middle of returning to the TVA when the frightened mode time runs out, they would instantly go back to chasing/scattering movement mode. Now they will complete their trip back home.
 v1.3:
 *Increased base player & enemies movement speed for more lively gameplay
 *Fixed ghosts from entering a bugged state where they have no hitbox and are stuck at half speed if a Tesseract is picked up whilst the enemy is retreating to the TVA.

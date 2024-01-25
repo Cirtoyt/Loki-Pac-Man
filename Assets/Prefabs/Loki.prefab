@@ -126,6 +126,13 @@ MonoBehaviour:
   deathSource: {fileID: -261487289724752319}
   enemyCaptureSource: {fileID: -2154367716976534061}
   pickupTesseractSource: {fileID: -4417022011017013850}
+  pickupInfinityStoneSource: {fileID: -4417022011017013850}
+  level1SpeedMultiplier: 0.8
+  level2To4SpeedMultiplier: 0.9
+  level5To20SpeedMultiplier: 1
+  level21PlusSpeedMultiplier: 0.9
+  level1FrightSpeedMultiplierOffset: 0.1
+  level2To4FrightSpeedMultiplierOffset: 0.05
 --- !u!114 &5909588029563726152
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class Loki : MonoBehaviour
     [SerializeField] private AudioSource deathSource;
     [SerializeField] private AudioSource enemyCaptureSource;
     [SerializeField] private AudioSource pickupTesseractSource;
+    [SerializeField] private AudioSource pickupInfinityStoneSource;
     [SerializeField] private float level1SpeedMultiplier = 0.8f;
     [SerializeField] private float level2To4SpeedMultiplier = 0.9f;
     [SerializeField] private float level5To20SpeedMultiplier = 1f;
@@ -41,6 +42,7 @@ public class Loki : MonoBehaviour
         muteSoundsToggle.AddAudioSource(deathSource);
         muteSoundsToggle.AddAudioSource(enemyCaptureSource);
         muteSoundsToggle.AddAudioSource(pickupTesseractSource);
+        muteSoundsToggle.AddAudioSource(pickupInfinityStoneSource);
     }
 
     void Start()
@@ -241,6 +243,11 @@ public class Loki : MonoBehaviour
         pickupTesseractSource.Play();
     }
 
+    public void PlayPickupInfinityStoneSound()
+    {
+        pickupInfinityStoneSource.Play();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Enemy enemy))
@@ -297,5 +304,6 @@ public class Loki : MonoBehaviour
         muteSoundsToggle.RemoveAudioSource(deathSource);
         muteSoundsToggle.RemoveAudioSource(enemyCaptureSource);
         muteSoundsToggle.RemoveAudioSource(pickupTesseractSource);
+        muteSoundsToggle.RemoveAudioSource(pickupInfinityStoneSource);
     }
 }
