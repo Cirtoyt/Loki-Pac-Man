@@ -8,11 +8,16 @@ If you catch all 4 ghosts with 1 teseract, at each teseract, you get a plus 12,0
 
 Add cornering where you can go around corners a few "pixels" before you reach the corner tile to perform diagonal movement that's essentially 2x speed
 
-Increase music pitch to 1.2 and 1.4 in last <certain number> of pellets and then at half that amount, pitch even higher
 Increase music pitch to insane when in frighten mode
 Increase music pitch to insane more so + reversed whilst any ghost is retreating to the TVA
 
 Done things:
+v1.6:
++Music now pitches up to 1.2 when 130 pellets are remaining, and to 1.4 when just 70 pellets are remaining!
+v1.5:
++Added Infinity Stones as fruits that spawn in twice per level (when at 1/3 and 2/3 through pellets collected) and award increasing points per level/fruit type! They auto despawn after 9.5 seconds if not collected. They show the points they give in purple!
+*Updated splash screen to use new logo.
+*Updated version number and company name, so saved score will reset.
 v1.4:
 +Added variable speed multipliers to the player and ghosts depending if on level 1, 2 to 4, 5 to 20, or 21 onwards. Also, now the player gets quicker when getting the tesseract for the first 4 levels too.
 +Added a mute sound button that has it's state saved to PlayerPrefs also!

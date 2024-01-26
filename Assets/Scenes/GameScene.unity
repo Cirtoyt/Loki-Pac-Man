@@ -1875,7 +1875,10 @@ MonoBehaviour:
   - {fileID: 6091589819752980336, guid: d0120a3c08f79944d8a7521d70f6ad74, type: 3}
   - {fileID: 1006547424039304340, guid: 5c3684fd0164f234d9d1da46875a871c, type: 3}
   - {fileID: 3734878286779234183, guid: 9ea6e2132239d5c42a98e5f34df7f322, type: 3}
-  level: 0
+  mainBackgroundMusic: {fileID: 818940044}
+  mainBackgroundMusicFasterPitch: 1.2
+  mainBackgroundMusicFastestPitch: 1.4
+  level: 1
 --- !u!114 &818940042
 MonoBehaviour:
   m_ObjectHideFlags: 0

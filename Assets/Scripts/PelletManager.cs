@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class PelletManager : MonoBehaviour
 {
-    public enum InfinityStones
-    {
-        Reality,
-        Power,
-        Mind,
-        Time,
-        Soul,
-        ThanosGauntlet,
-        Mjolnir,
-        Tempad,
-    }
-
     [SerializeField] private int pelletPointWorth;
     [SerializeField] private int tesseractPointWorth;
     [SerializeField] private Transform infinityStoneSpawnPoint;
@@ -43,14 +31,22 @@ public class PelletManager : MonoBehaviour
 
         if (pelletsRemaining == 185)
         {
-            Debug.Log("Spawning stone!");
             SpawnInfinityStone();
+        }
+
+        if (pelletsRemaining == 130)
+        {
+            gm.IncreaseMainBackgroundMusicPitchToFaster();
         }
 
         if (pelletsRemaining == 95)
         {
-            Debug.Log("Spawning stone!");
             SpawnInfinityStone();
+        }
+
+        if (pelletsRemaining == 70)
+        {
+            gm.IncreaseMainBackgroundMusicPitchToFastest();
         }
 
         if (pelletsRemaining <= 0)

@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> LTilemapList;
     [SerializeField] private List<GameObject> KTilemapList;
     [SerializeField] private List<GameObject> ITilemapList;
+    [SerializeField] private AudioSource mainBackgroundMusic;
+    [SerializeField] private float mainBackgroundMusicFasterPitch = 1.2f;
+    [SerializeField] private float mainBackgroundMusicFastestPitch = 1.4f;
 
     public enum GameState
     {
@@ -69,6 +72,7 @@ public class GameManager : MonoBehaviour
         currentLTilemap = Instantiate(LTilemapList[0], wallTilemap.parent);
         currentKTilemap = Instantiate(KTilemapList[0], wallTilemap.parent);
         currentITilemap = Instantiate(ITilemapList[0], wallTilemap.parent);
+        ResetMainBackgroundMusicPitch();
     }
 
     private void OnStartPause()
@@ -202,6 +206,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator WinRoundCoroutine()
     {
         gameState = GameState.SettingUpGame;
+        
         // If somehow someone has reached and completed level 99
         if (level >= 99)
         {
@@ -233,6 +238,7 @@ public class GameManager : MonoBehaviour
             instantiatedPellets = Instantiate(pelletsPrefab);
             // remove any bonus items
             gameState = GameState.BeginScreen;
+            ResetMainBackgroundMusicPitch();
             beginGameText.EnableText();
         }
         // Load a new round
@@ -249,6 +255,7 @@ public class GameManager : MonoBehaviour
             instantiatedPellets = Instantiate(pelletsPrefab);
             level++;
             levelValueText.text = level.ToString();
+            ResetMainBackgroundMusicPitch();
             StartCoroutine(BeginRound(false));
         }
     }
@@ -296,6 +303,7 @@ public class GameManager : MonoBehaviour
             instantiatedPellets = Instantiate(pelletsPrefab);
             // remove any bonus items
             gameState = GameState.BeginScreen;
+            ResetMainBackgroundMusicPitch();
             beginGameText.EnableText();
         }
     }
@@ -376,5 +384,20 @@ public class GameManager : MonoBehaviour
     public GameState GetGameState()
     {
         return gameState;
+    }
+
+    public void ResetMainBackgroundMusicPitch()
+    {
+        mainBackgroundMusic.pitch = 1;
+    }
+
+    public void IncreaseMainBackgroundMusicPitchToFaster()
+    {
+        mainBackgroundMusic.pitch = mainBackgroundMusicFasterPitch;
+    }
+
+    public void IncreaseMainBackgroundMusicPitchToFastest()
+    {
+        mainBackgroundMusic.pitch = mainBackgroundMusicFastestPitch;
     }
 }
