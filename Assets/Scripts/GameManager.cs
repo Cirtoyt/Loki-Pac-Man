@@ -239,6 +239,7 @@ public class GameManager : MonoBehaviour
             // remove any bonus items
             gameState = GameState.BeginScreen;
             ResetMainBackgroundMusicPitch();
+            RemoveAllInfinityStones();
             beginGameText.EnableText();
         }
         // Load a new round
@@ -256,6 +257,7 @@ public class GameManager : MonoBehaviour
             level++;
             levelValueText.text = level.ToString();
             ResetMainBackgroundMusicPitch();
+            RemoveAllInfinityStones();
             StartCoroutine(BeginRound(false));
         }
     }
@@ -304,6 +306,7 @@ public class GameManager : MonoBehaviour
             // remove any bonus items
             gameState = GameState.BeginScreen;
             ResetMainBackgroundMusicPitch();
+            RemoveAllInfinityStones();
             beginGameText.EnableText();
         }
     }
@@ -384,6 +387,15 @@ public class GameManager : MonoBehaviour
     public GameState GetGameState()
     {
         return gameState;
+    }
+
+    private void RemoveAllInfinityStones()
+    {
+        var activeinfinityStones = FindObjectsOfType<InfinityStone>();
+        foreach (InfinityStone infinityStone in activeinfinityStones)
+        {
+            Destroy(infinityStone.gameObject);
+        }
     }
 
     public void ResetMainBackgroundMusicPitch()
